@@ -13,13 +13,16 @@
 </template>
 
 <script setup lang="ts">
+import {require} from '@/utils/require.ts';
+
 const props = defineProps({
-  btnName: String,
-  iconName: String,
-  backgroundName: String
+    btnName: String,
+    iconName: String,
+    backgroundName: String
 });
 
-const imageUrl = new URL("", import.meta.url).href;
+const imageUrl = require(`@/assets/meeting/${props.backgroundName}.svg`);
+console.log(`----------`, imageUrl);
 // url('@renderer/assets/meeting/${props.backgroundName}.svg')
 </script>
 
