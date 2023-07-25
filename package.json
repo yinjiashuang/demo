@@ -1,11 +1,16 @@
 {
   "name": "st-hawk-meeting",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
+  "main": "dist/electron-main/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc && vite build",
+    "build-electron": "rimraf dist && vite build && electron-builder",
     "preview": "vite preview"
+  },
+  "engines": {
+    "node": ">=16.0.0"
   },
   "dependencies": {
     "element-plus": "^2.3.8",
@@ -20,10 +25,48 @@
     "electron-devtools-installer": "^3.2.0",
     "less": "^4.1.3",
     "less-loader": "^11.1.3",
+    "rimraf": "^5.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.4.5",
-    "vue-tsc": "^1.8.5",
-    "vite-plugin-electron": "^0.12.0"
+    "vite-plugin-electron": "^0.12.0",
+    "vue-tsc": "^1.8.5"
   },
-  "main": "dist-electron/index.js"
+  "build": {
+    "appId": "com.stone.hawk.client",
+    "productName": "鹰眼会议",
+    "asar": true,
+    "copyright": "Copyright © 2023 stone",
+    "directories": {
+      "output": "release/${version}"
+    },
+    "mac": {
+      "artifactName": "${productName}_${version}.${ext}",
+      "target": [
+        "dmg"
+      ]
+    },
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "artifactName": "${productName}_${version}.${ext}"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "deleteAppDataOnUninstall": false,
+      "publish": [
+        {
+          "provider": "generic",
+          "url": "http://127.0.0.1:10247"
+        }
+      ]
+    }
+  }
 }

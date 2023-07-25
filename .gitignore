@@ -23,5 +23,6 @@ dist-ssr
 *.sln
 *.sw?
 
-dist-electron/index.js
 index.html
+dist-electron
+release

@@ -22,19 +22,13 @@ const createWindow = async () => {
     });
 
     // 如果打包了，渲染index.html
-    // if (app.isPackaged) {
-    //     await mainWindow.loadFile(path.join(__dirname, '../index.html'));
-    // } else {
-    //     let url = 'http://localhost:3000';
-    //     await mainWindow.loadURL(url);
-    // }
-    // You can use `process.env.VITE_DEV_SERVER_URL` when the vite command is called `serve`
-    if (process.env.VITE_DEV_SERVER_URL) {
-        await mainWindow.loadURL(process.env.VITE_DEV_SERVER_URL);
+    if (app.isPackaged) {
+        await mainWindow.loadFile(path.join(__dirname, '../index.html'));
     } else {
-        // Load your file
-        await mainWindow.loadFile('dist/index.html');
+        let url = 'http://localhost:5173'; // 本地启动的vue项目路径
+        await mainWindow.loadURL(url);
     }
+
     mainWindow.webContents.openDevTools();
 };
 

@@ -9,6 +9,11 @@ export default defineConfig({
         vue(),
         electron({
             entry: 'electron-main/index.ts', // 主进程文件
+            vite: {
+                build: {
+                    outDir: 'dist/electron-main'
+                }
+            }
         })
     ],
     build: {
