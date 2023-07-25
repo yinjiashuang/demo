@@ -44,14 +44,13 @@ const roomId = ref('');
 const isEnableMic = ref(true);
 // 是否开启摄像头
 const isEnableCamera = ref(true);
-
 const router = useRouter();
 const route = useRoute();
 const rules = {
     roomId: [
         {
             trigger: 'blur',
-            validator: (callback): void => {
+            validator: (rule, value, callback): void => {
                 if (!isJoin.value) {
                     callback();
                     return;
