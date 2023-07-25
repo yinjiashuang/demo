@@ -26,5 +26,13 @@ export const meetingRoutes: Array<RouteRecordRaw> = [
     meta: {
       title: '快速会议'
     }
+  },
+  {
+    path: '/meeting/room',
+    name: 'meeting_room',
+    component: joinMeeting,
+    meta: {
+      title: '快速会议'
+    }
   }
 ];

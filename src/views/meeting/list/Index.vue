@@ -2,7 +2,6 @@
   <div class="meeting-list-container">
     <meeting-menu />
     <meeting-list-filter />
-    <el-button @click="handle">按钮</el-button>
   </div>
 </template>
 <script setup lang="ts">
@@ -14,6 +13,6 @@ const handle = (): void => {
     window.electron.ipcRenderer.send('login', 'https://baidu.com');
 };
 </script>
-<style scoped lang="less">
+<style lang="less">
 @import "index.less";
 </style>
