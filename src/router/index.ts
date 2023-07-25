@@ -1,5 +1,5 @@
-import { createMemoryHistory, createRouter } from "vue-router";
-import { routers } from "./routers";
+import {createMemoryHistory, createRouter} from 'vue-router';
+import {routers} from './routers';
 
 const routerHistory = createMemoryHistory();
 const Router = createRouter({
@@ -9,7 +9,7 @@ const Router = createRouter({
 
 Router.beforeEach((to, _, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title + "-智能视频监控平台";
+    document.title = to.meta.title + '-智能视频监控平台';
   }
 
   if (needToLogin(to)) {
@@ -25,8 +25,8 @@ Router.beforeEach((to, _, next) => {
   next();
 });
 
-const needToLogin = (to): boolean => {
-  const routerName = ["login"];
+const needToLogin = (to: any): boolean => {
+  const routerName = ['login'];
   console.log(routerName.indexOf(to.name));
   return routerName.indexOf(to.name) === -1;
 };

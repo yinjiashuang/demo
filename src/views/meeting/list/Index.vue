@@ -6,12 +6,12 @@
   </div>
 </template>
 <script setup lang="ts">
-import MeetingMenu from "@renderer/components/menu/MeetingMenu.vue";
-import MeetingListFilter from "../filter/MeetingListFilter.vue";
+import MeetingMenu from '@/components/menu/MeetingMenu.vue';
+import MeetingListFilter from '../filter/MeetingListFilter.vue';
 
 const handle = (): void => {
-  console.log("发送");
-  window.electron.ipcRenderer.send("login", "https://baidu.com");
+    console.log('发送');
+    window.electron.ipcRenderer.send('login', 'https://baidu.com');
 };
 </script>
 <style scoped lang="less">

@@ -17,22 +17,15 @@
       icon-name="ic_meeting_scheduled"
       background-name="ic_meeting_join_btn_bg"
     />
-    <ul v-if="false" class="versions">
-      <li class="electron-version">Electron v{{ versions.electron }}</li>
-      <li class="chrome-version">Chromium v{{ versions.chrome }}</li>
-      <li class="node-version">Node v{{ versions.node }}</li>
-      <li class="v8-version">V8 v{{ versions.v8 }}</li>
-    </ul>
   </div>
 </template>
 
 <script setup lang="ts">
 import { reactive } from "vue";
 import { useRouter } from "vue-router";
-import MeetingMenuItem from "@renderer/components/menu/item/MeetingMenuItem.vue";
+import MeetingMenuItem from "@/components/menu/item/MeetingMenuItem.vue";
 
 const router = useRouter();
-const versions = reactive({ ...window.electron.process.versions });
 
 /**
  * method

@@ -3,7 +3,7 @@
     <img class="item-background" :src="imageUrl" />
     <img
       class="item-icon"
-      :src="`@renderer/assets/meeting/${props.iconName}.svg`"
+      :src="`@/assets/meeting/${props.iconName}.svg`"
       :alt="props.btnName"
     />
     <div class="item-text">
