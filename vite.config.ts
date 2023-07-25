@@ -1,24 +1,22 @@
 import {defineConfig} from 'vite';
 import vue from '@vitejs/plugin-vue';
+import electron from 'vite-plugin-electron';
+import * as path from 'path';
 
 // https://vitejs.dev/config/
-import {resolve} from 'path';
-
-const root = process.cwd();
-
-const pathResolve = (dir: string) => {
-    return resolve(root, '.', dir);
-};
-
 export default defineConfig({
-    plugins: [vue()],
+    plugins: [
+        vue(),
+        electron({
+            entry: 'electron-main/index.ts', // 主进程文件
+        })
+    ],
+    build: {
+        emptyOutDir: false
+    },
     resolve: {
-        extensions: ['.mjs', '.js', '.ts', 'jsx', '.tsx', '.json', '.less', '.css'],
-        alias: [
-            {
-                find: /\@\//,
-                replacement: `${pathResolve('src')}`
-            }
-        ]
+        alias: {
+            '@': path.resolve(__dirname, './src')
+        }
     }
 });

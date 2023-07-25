@@ -9,6 +9,7 @@
       "DOM.Iterable"
     ],
     "skipLibCheck": true,
+    "baseUrl": ".",
     "paths": {
       "@/*": [
         "src/*"
@@ -31,7 +32,9 @@
     "src/**/*.ts",
     "src/**/*.d.ts",
     "src/**/*.tsx",
-    "src/**/*.vue"
+    "src/**/*.vue",
+    "electron-main/**/*.ts",
+    "electron-preload/**/*.ts"
   ],
   "references": [
     {
