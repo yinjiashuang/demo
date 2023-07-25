@@ -3,21 +3,36 @@
     height: 210px;
     display: flex;
     flex-direction: column;
-    border-radius: 10px;
     margin-right: 25px;
     box-shadow: 0 10px 40px 0 rgba(54, 102, 219, 0.30);
     align-items: center;
     cursor: pointer;
     margin-bottom: 18px;
     margin-top: 40px;
+    position: relative;
+
+    .item-background {
+        position: absolute;
+        z-index: 0;
+        top: 0;
+        bottom: 0;
+        border-radius: 10px;
+        left: 0;
+        right: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
     .item-icon {
+        z-index: 1;
         width: 90px;
         height: 90px;
         margin-top: 34px;
     }
 
     .item-text {
+        z-index: 1;
         margin-top: 10px;
         font-size: 18px;
         color: white;
