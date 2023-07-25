@@ -1,0 +1,43 @@
+.meeting-menu-item {
+    flex: 1;
+    height: 210px;
+    display: flex;
+    flex-direction: column;
+    border-radius: 10px;
+    margin-right: 25px;
+    box-shadow: 0 10px 40px 0 rgba(54, 102, 219, 0.30);
+    align-items: center;
+    cursor: pointer;
+    margin-bottom: 18px;
+    margin-top: 40px;
+
+    .item-icon {
+        width: 90px;
+        height: 90px;
+        margin-top: 34px;
+    }
+
+    .item-text {
+        margin-top: 10px;
+        font-size: 18px;
+        color: white;
+        font-weight: 700;
+        line-height: normal;
+    }
+
+    &:hover {
+        opacity: 0.9;
+    }
+
+    &:active {
+        opacity: 0.8;
+    }
+
+    &:first-child {
+        margin-left: 40px;
+    }
+
+    &:last-child {
+        margin-right: 40px;
+    }
+}
