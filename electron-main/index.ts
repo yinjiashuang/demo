@@ -29,7 +29,7 @@ const createWindow = async () => {
         await mainWindow.loadURL(url);
     }
 
-    mainWindow.webContents.openDevTools();
+    mainWindow.webContents.openDevTools({mode: 'left'});
 };
 
 app.whenReady().then(async () => {

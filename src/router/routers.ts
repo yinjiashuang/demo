@@ -1,5 +1,5 @@
 import {RouteRecordRaw} from 'vue-router';
-import login from '../views/login/Index.vue';
+import login from '@/views/login/Index.vue';
 import {meetingRoutes} from './meeting';
 import Home from '@/views/home/Index.vue';
 

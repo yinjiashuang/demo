@@ -1,6 +1,6 @@
 import {RouteRecordRaw} from 'vue-router';
-import meetingList from '../../views/meeting/list/Index.vue';
-import joinMeeting from '../../views/meeting/join/Join.vue';
+import meetingList from '@/views/meeting/list/Index.vue';
+import joinMeeting from '@/views/meeting/join/Join.vue';
 
 export const meetingRoutes: Array<RouteRecordRaw> = [
   {
@@ -22,6 +22,14 @@ export const meetingRoutes: Array<RouteRecordRaw> = [
   {
     path: '/meeting/quick',
     name: 'quick_meeting',
+    component: joinMeeting,
+    meta: {
+      title: '快速会议'
+    }
+  },
+  {
+    path: '/meeting/room',
+    name: 'meeting_room',
     component: joinMeeting,
     meta: {
       title: '快速会议'

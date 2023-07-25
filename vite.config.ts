@@ -7,14 +7,24 @@ import * as path from 'path';
 export default defineConfig({
     plugins: [
         vue(),
-        electron({
-            entry: 'electron-main/index.ts', // 主进程文件
-            vite: {
-                build: {
-                    outDir: 'dist/electron-main'
+        electron([
+            {
+                entry: 'electron-main/index.ts', // 主进程文件
+                vite: {
+                    build: {
+                        outDir: 'dist/electron-main'
+                    }
+                }
+            },
+            {
+                entry: 'electron-preload/index.ts', // 预加载
+                vite: {
+                    build: {
+                        outDir: 'dist/electron-preload'
+                    }
                 }
             }
-        })
+        ])
     ],
     build: {
         emptyOutDir: false
