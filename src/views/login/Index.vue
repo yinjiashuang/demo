@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
-    <img class="login-left-img" src="@renderer/assets/login/ic_login_left_bg.png" />
+    <img class="login-left-img" src="@/assets/login/ic_login_left_bg.png"/>
     <div class="login-form">
-      <img src="@renderer/assets/login/ic_login_logo.png" class="logo" alt="" />
+        <img src="@/assets/login/ic_login_logo.png" class="logo" alt=""/>
       <span class="title">智能视频监控平台</span>
       <span class="sub-title">Intelligent Video System</span>
       <el-button
@@ -17,19 +17,19 @@
   </div>
 </template>
 <script setup lang="ts">
-import { ref } from "vue";
-import { useRouter } from "vue-router";
+import {ref} from 'vue';
+import {useRouter} from 'vue-router';
 
 const router = useRouter();
 const fullLoading = ref(false);
 const openFullLoading = (): void => {
-  fullLoading.value = true;
-  setTimeout(() => {
-    fullLoading.value = false;
-    router.push({
-      name: "meeting_list"
-    });
-  }, 0);
+    fullLoading.value = true;
+    setTimeout(() => {
+        fullLoading.value = false;
+        router.push({
+            name: 'meeting_list'
+        });
+    }, 0);
 };
 const loading = ref<boolean>(false);
 </script>

@@ -1,0 +1,73 @@
+.join-meeting-container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .join-form {
+        width: 540px;
+        border-radius: 64.106px;
+        border: 1.5px solid #FFF;
+        background: rgba(255, 255, 255, 0.25);
+        box-shadow: 0 4px 28px 0 rgba(99, 144, 255, 0.10);
+        padding: 40px 40px 100px 40px;
+        display: flex;
+        flex-direction: column;
+
+        .join-title-bar {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            position: relative;
+
+            .title {
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                position: absolute;
+                margin: 0 80px;
+                left: 0;
+                width: calc(100% - 160px);
+                top: 0;
+                bottom: 0;
+                right: 0;
+                color: #3D4258;
+                font-size: 20px;
+                font-style: normal;
+                font-weight: 400;
+                line-height: normal;
+            }
+        }
+
+        .form-body {
+            padding: 0 100px;
+            margin-top: 60px;
+        }
+
+        .button {
+            margin: 30px 100px 0 100px;
+        }
+
+        .join-change-device-box {
+            display: flex;
+            margin-top: 60px;
+            flex-direction: row;
+            justify-content: center;
+
+            .el-checkbox {
+                color: #333;
+                font-weight: 400;
+                --el-checkbox-checked-text-color: #333;
+
+                :hover {
+                }
+
+                .is-checked {
+                    color: #333;
+                }
+            }
+        }
+    }
+}
