@@ -6,7 +6,7 @@
 </template>
 <script setup lang="ts">
 import MeetingMenu from '@/components/menu/MeetingMenu.vue';
-import MeetingListFilter from '../filter/MeetingListFilter.vue';
+import MeetingListFilter from '@/views/meeting/filter/MeetingListFilter.vue';
 
 const handle = (): void => {
     console.log('发送');
