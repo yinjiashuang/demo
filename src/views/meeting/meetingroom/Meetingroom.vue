@@ -1,21 +1,23 @@
 <template>
-  <div class="meeting_room_framework">
+  <div class="meeting-room-framework">
     <div class="header">
-      <div class="headerItem"></div>
-      <div class="headerItem">{{ meetingHeader.meetingName }}</div>
+      <div class="header-item"></div>
+      <div class="header-item">{{ meetingHeader.meetingName }}</div>
 
-      <div class="headerItem header_status">
-        <div class="headerItem">会议人数: {{ meetingHeader.memberCount }}</div>
-        <div class="meeting_time headerItem">{{ meetingHeader.meetingTimer }}</div>
-        <div class="headerItem"><img
-            src="@/assets/meetingRoom/net5.svg"
+      <div class="header-item header-status">
+        <div class="header-item">会议人数: {{ meetingHeader.memberCount }}</div>
+        <div class="meeting-time header-item">{{ meetingHeader.meetingTimer }}</div>
+        <div class="header-item"><img
+            src="@/assets/meetingroom/ic_meetingroom_net5.svg"
             alt=""
         /></div>
 
       </div>
     </div>
-    <div class="member_show"></div>
-    <div class="footer"></div>
+    <div class="member-show"></div>
+    <div class="footer">
+
+    </div>
   </div>
 </template>
 
@@ -50,6 +52,7 @@ const meetingBottom = reactive({
   isGirdFrame: true,
 });
 
+
 onBeforeMount(() => {
   console.log("组件挂载前");
 });
@@ -67,6 +70,6 @@ onUnmounted(() => {
 });
 </script>
 
-<style scoped lang="less">
-@import "meeting_room.less";
+<style lang="less">
+@import "meetingroom.less";
 </style>
