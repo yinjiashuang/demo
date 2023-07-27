@@ -1,35 +1,35 @@
 <template>
-  <div class="login-container">
-    <img class="login-left-img" src="@/assets/login/ic_login_left_bg.png"/>
-    <div class="login-form">
-        <img src="@/assets/login/ic_login_logo.png" class="logo" alt=""/>
-      <span class="title">智能视频监控平台</span>
-      <span class="sub-title">Intelligent Video System</span>
-      <el-button
-        v-loading.fullscreen.lock="fullLoading"
-        :loading="loading"
-        type="primary"
-        class="authorization-button"
-        @click="openFullLoading"
-        >授权登录
-      </el-button>
+    <div class="login-container">
+        <div class="login-form">
+            <span class="title">您尚未登录，请登录账号</span>
+            <el-button
+                :loading="loading"
+                type="primary"
+                size="large"
+                class="authorization-button"
+                @click="openFullLoading"
+            >在浏览器中登录
+            </el-button>
+        </div>
     </div>
-  </div>
 </template>
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
+import {ElLoading} from 'element-plus';
+
+const fullLoading = ref<ElLoading | null>(null);
 
 const router = useRouter();
-const fullLoading = ref(false);
 const openFullLoading = (): void => {
-    fullLoading.value = true;
+    fullLoading.value = ElLoading.service({fullscreen: true, target: 'login-container'});
     setTimeout(() => {
-        fullLoading.value = false;
+        fullLoading.value?.close();
+        window.sessionStorage.setItem('token', '123');
         router.push({
             name: 'meeting_list'
         });
-    }, 0);
+    }, 1000);
 };
 const loading = ref<boolean>(false);
 </script>

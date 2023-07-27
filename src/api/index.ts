@@ -1,32 +1,32 @@
-import axios from "axios";
-import { ElMessage } from "element-plus";
-import { getToken } from "@/api/authentication.ts"
+import axios from 'axios';
+import {ElMessage} from 'element-plus';
+import {getToken} from '@/api/authentication.ts';
 
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API,
   timeout: 5000000
-})
+});
 
 // request interceptor
 service.interceptors.request.use(
-  async (config: any) => {
-    config.headers['Accept-Language'] = 'en' //todo暂时没有中英文切换需求 230725
-    const token = window.sessionStorage.getItem('token')
-    config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json'
+    async (config: any) => {
+      config.headers['Accept-Language'] = 'en'; //todo暂时没有中英文切换需求 230725
+      const token = window.sessionStorage.getItem('token');
+      config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
 
-    if (token) {
-      config.headers.Authorization = 'Bearer ' + token
-    }
-    return config
-  },
-  error => Promise.reject(error)
-)
+      if (token) {
+        config.headers.Authorization = 'Bearer ' + token;
+      }
+      return config;
+    },
+    error => Promise.reject(error)
+);
 
 service.interceptors.response.use(
   response => {
     const res:any = response.data
-    
-   if (res.code && res.code == 200) {
+
+    if (res.code && res.code == 200) {
       return Promise.resolve(res)
     } else {
       ElMessage({
@@ -54,7 +54,7 @@ service.interceptors.response.use(
           try {
             const res:any = await getToken(str)
             window.sessionStorage.setItem('token', res.access_token)
-            
+
             config.headers.Authorization = 'Bearer ' + window.sessionStorage.getItem('token')
 
             const reData = await service(config)
@@ -88,9 +88,4 @@ service.interceptors.response.use(
 
   }
 )
-
-
-
-
-
 export default service

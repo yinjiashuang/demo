@@ -9,7 +9,7 @@ const Router = createRouter({
 
 Router.beforeEach((to, _, next) => {
   if (to.meta.title) {
-    document.title = to.meta.title + '-智能视频监控平台';
+    document.title = to.meta.title + '-鹰眼会议';
   }
 
   if (needToLogin(to)) {
@@ -32,7 +32,9 @@ const needToLogin = (to: any): boolean => {
 };
 
 const checkLogin = (): boolean => {
-  return true;
+  const token = window.sessionStorage.getItem('token') || '';
+  console.log('token:', token);
+  return token.length > 0;
 };
 
 export default Router;

@@ -13,15 +13,17 @@ const homeRoute = {
     name: 'meeting_list'
   },
   component: Home,
-  children: [...meetingRoutes]
-};
-const loginRoute: RouteRecordRaw = {
-  path: '/login',
-  name: 'login',
-  component: login,
-  meta: {
-    title: '登录'
-  }
+  children: [
+    ...meetingRoutes,
+    {
+      path: '/login',
+      name: 'login',
+      component: login,
+      meta: {
+        title: '登录'
+      }
+    }
+  ]
 };
 
-export const routers: Array<RouteRecordRaw> = [homeRoute, loginRoute];
+export const routers: Array<RouteRecordRaw> = [homeRoute];
