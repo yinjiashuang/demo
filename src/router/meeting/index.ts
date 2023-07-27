@@ -1,6 +1,7 @@
 import {RouteRecordRaw} from 'vue-router';
 import meetingList from '@/views/meeting/list/Index.vue';
 import joinMeeting from '@/views/meeting/join/Join.vue';
+import meetingRoom from '@/views/meeting/meetingRoom/meetingRoom.vue'
 
 export const meetingRoutes: Array<RouteRecordRaw> = [
   {
@@ -30,9 +31,9 @@ export const meetingRoutes: Array<RouteRecordRaw> = [
   {
     path: '/meeting/room',
     name: 'meeting_room',
-    component: joinMeeting,
+    component: meetingRoom,
     meta: {
-      title: '快速会议'
+      title: '会议室'
     }
   }
 ];
