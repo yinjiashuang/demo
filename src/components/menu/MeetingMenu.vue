@@ -13,17 +13,17 @@
       @click="joinMeeting(false)"
     />
     <meeting-menu-item
-      btn-name="预订会议"
-      icon-name="ic_meeting_scheduled"
-      background-name="ic_meeting_join_btn_bg"
+        btn-name="预订会议"
+        icon-name="ic_meeting_scheduled"
+        background-name="ic_meeting_join_btn_bg"
+        @click="scheduledMeeting"
     />
   </div>
 </template>
 
 <script setup lang="ts">
-import { reactive } from "vue";
-import { useRouter } from "vue-router";
-import MeetingMenuItem from "@/components/menu/item/MeetingMenuItem.vue";
+import {useRouter} from 'vue-router';
+import MeetingMenuItem from '@/components/menu/item/MeetingMenuItem.vue';
 
 const router = useRouter();
 
@@ -31,9 +31,14 @@ const router = useRouter();
  * method
  */
 const joinMeeting = (isJoin = true): void => {
-  router.push({
-    name: isJoin ? "join_meeting" : "quick_meeting"
-  });
+    router.push({
+        name: isJoin ? 'join_meeting' : 'quick_meeting'
+    });
+};
+const scheduledMeeting = (): void => {
+    router.push({
+        name: 'scheduled_meeting'
+    })
 };
 </script>
 <style>
