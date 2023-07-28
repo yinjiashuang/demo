@@ -1,5 +1,6 @@
 import {app, BrowserWindow} from 'electron';
 import * as path from 'path';
+import {IpcMainEvent} from './events/IpcMainEvent.ts';
 
 const createWindow = async () => {
     const mainWindow = new BrowserWindow({
@@ -28,10 +29,11 @@ const createWindow = async () => {
         let url = 'http://localhost:5173'; // 本地启动的vue项目路径
         await mainWindow.loadURL(url);
     }
-
+    IpcMainEvent(mainWindow);
     mainWindow.webContents.openDevTools({mode: 'left'});
 };
 
+app.setAsDefaultProtocolClient('StoneHawkMeetingClient');
 app.whenReady().then(async () => {
     // 创建窗口
     await createWindow();

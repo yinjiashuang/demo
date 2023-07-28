@@ -16,20 +16,26 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {ElLoading} from 'element-plus';
-
-const fullLoading = ref<ElLoading | null>(null);
 
 const router = useRouter();
+
+const fullLoading = ref();
+
+window.electron.ipcRenderer.on('login-success', (_: any, args: any) => {
+    // fullLoading.value.close();
+    // window.sessionStorage.setItem('username', args.username);
+    // window.sessionStorage.setItem('password', args.password);
+    // window.sessionStorage.setItem('token', args.token);
+    // router.push({name: 'meeting_list'});
+    console.log(args);
+});
 const openFullLoading = (): void => {
-    fullLoading.value = ElLoading.service({fullscreen: true, target: 'login-container'});
-    setTimeout(() => {
-        fullLoading.value?.close();
-        window.sessionStorage.setItem('token', '123');
-        router.push({
-            name: 'meeting_list'
-        });
-    }, 1000);
+    // fullLoading.value = ElLoading.service({fullscreen: true, target: 'login-container'});
+    // window.electron.ipcRenderer.send('login', Configs.clientLoginUrl);
+    window.sessionStorage.setItem('token', '123');
+    router.push({
+        name: 'meeting_list'
+    });
 };
 const loading = ref<boolean>(false);
 </script>

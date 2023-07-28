@@ -1,0 +1,4 @@
+export const Configs = {
+    // 平台端登录地址
+    clientLoginUrl: 'https://localhost:8080/client/login'
+};
