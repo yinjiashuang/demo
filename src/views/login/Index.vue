@@ -7,8 +7,7 @@
                 type="primary"
                 size="large"
                 class="authorization-button"
-                @click="openFullLoading"
-            >在浏览器中登录
+                @click="openFullLoading">在浏览器中登录
             </el-button>
         </div>
     </div>
@@ -22,12 +21,11 @@ const router = useRouter();
 const fullLoading = ref();
 
 window.electron.ipcRenderer.on('login-success', (_: any, args: any) => {
-    // fullLoading.value.close();
-    // window.sessionStorage.setItem('username', args.username);
-    // window.sessionStorage.setItem('password', args.password);
-    // window.sessionStorage.setItem('token', args.token);
-    // router.push({name: 'meeting_list'});
-    console.log(args);
+    fullLoading.value.close();
+    window.sessionStorage.setItem('username', args.username);
+    window.sessionStorage.setItem('password', args.password);
+    window.sessionStorage.setItem('token', args.token);
+    router.push({name: 'meeting_list'});
 });
 const openFullLoading = (): void => {
     // fullLoading.value = ElLoading.service({fullscreen: true, target: 'login-container'});
