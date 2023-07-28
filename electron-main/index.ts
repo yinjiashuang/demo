@@ -30,13 +30,19 @@ const createWindow = async () => {
         await mainWindow.loadURL(url);
     }
     IpcMainEvent(mainWindow);
-    mainWindow.webContents.openDevTools({mode: 'left'});
+    mainWindow.webContents.openDevTools();
 };
 
 app.setAsDefaultProtocolClient('StoneHawkMeetingClient');
 app.whenReady().then(async () => {
     // 创建窗口
     await createWindow();
+    // installExtension(REDUX_DEVTOOLS)
+    //     .then((name) => {
+    //         console.log(`Added Extension: ${name}`);
+    //     }).catch((error) => {
+    //     console.log(`An error occurred`, error);
+    // });
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });

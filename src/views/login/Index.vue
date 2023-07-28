@@ -34,7 +34,7 @@ const openFullLoading = (): void => {
     // window.electron.ipcRenderer.send('login', Configs.clientLoginUrl);
     window.sessionStorage.setItem('token', '123');
     router.push({
-        name: 'meeting_list'
+        name: 'meeting_room'
     });
 };
 const loading = ref<boolean>(false);
