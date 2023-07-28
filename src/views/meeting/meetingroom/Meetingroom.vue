@@ -15,20 +15,20 @@
       </div>
     </div>
     <div class="member-show">
-      <div id="showMe" style="width: 400px;height: 200px"></div>
+      <canvas id="showMe" style="width: 400px;height: 200px"></canvas>
     </div>
     <div class="footer">
       <div class="botton-bar">
-        <meeting-botton :icon-title="camBtnTitle" :icon-name="camBtnIcon"
-                        @click="handleMeetingSetting('cam')"></meeting-botton>
-        <meeting-botton :icon-title="micBtnTitle" :icon-name="micBtnIcon"
-                        @click="handleMeetingSetting('mic')"></meeting-botton>
-        <meeting-botton :icon-title="'邀请成员'" :icon-name="'invite_member'"
-                        @click="handleMeetingSetting('share')"></meeting-botton>
-        <meeting-botton :icon-title="'成员管理'" :icon-name="'member_manage'"
-                        @click="handleMeetingSetting('member')"></meeting-botton>
-        <meeting-botton :icon-title="frameBtnTitle" :icon-name="frameBtnIcon"
-                        @click="handleMeetingSetting('frame')"></meeting-botton>
+          <meeting-button :icon-title="camBtnTitle" :icon-name="camBtnIcon"
+                          @click="handleMeetingSetting('cam')"></meeting-button>
+          <meeting-button :icon-title="micBtnTitle" :icon-name="micBtnIcon"
+                          @click="handleMeetingSetting('mic')"></meeting-button>
+          <meeting-button :icon-title="'邀请成员'" :icon-name="'invite_member'"
+                          @click="handleMeetingSetting('share')"></meeting-button>
+          <meeting-button :icon-title="'成员管理'" :icon-name="'member_manage'"
+                          @click="handleMeetingSetting('member')"></meeting-button>
+          <meeting-button :icon-title="frameBtnTitle" :icon-name="frameBtnIcon"
+                          @click="handleMeetingSetting('frame')"></meeting-button>
       </div>
       <img class="leave-meeting-button" src="@/assets/meetingroom/ic_meetingroom_leave_room_button.svg" alt=""
            srcset="" @click="leaveRoom">
@@ -37,24 +37,16 @@
 </template>
 
 <script setup lang="ts">
-import {
-  onBeforeMount,
-  onMounted,
-  onBeforeUnmount,
-  onUnmounted,
-  reactive,
-  ref, computed, watch,
-} from "vue";
-import meetingBotton from "@/components/meeting_Room/meetingroom_bottom_btn/Index.vue"
-import {useRouter} from "vue-router";
-import {windows} from "rimraf";
-import {ElMessage} from "element-plus";
+import {computed, onBeforeUnmount, onMounted, reactive, ref, watch,} from 'vue';
+import meetingButton from '@/components/meeting_Room/meetingroom_bottom_btn/Index.vue';
+import {useRouter} from 'vue-router';
+import {ElMessage} from 'element-plus';
 
-const zgEngine = window.require('zego-express-engine-electron/ZegoExpressEngine');
-const zgDefines = window.require('zego-express-engine-electron/ZegoExpressDefines');
+const zgEngine = window.zgEngine;
+const zgDefines = window.zgDefines;
 
 let zg = null
-const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
+const userInfo = JSON.parse(`${window.sessionStorage.getItem('userInfo')}`);
 
 // 会议顶部
 const meetingHeader = reactive({
@@ -176,7 +168,7 @@ const initMeetingCallback = () => {
       zgEngine.startPublishingStream('user-123456')
       console.log(document.getElementById('showMe'))
       zgEngine.startPreview({
-        canvas: document.getElementById('showMe'),
+          canvas: document.getElementById('showMe'),
       });
 
 
