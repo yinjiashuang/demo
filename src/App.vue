@@ -1,8 +1,9 @@
 <template>
-    <router-view class="app-container" style="width: 200px"/>
+    <router-view/>
 </template>
 
-<script setup lang="ts"></script>
+<script setup lang="ts">
+</script>
 
 <style lang="less">
 

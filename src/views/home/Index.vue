@@ -9,7 +9,9 @@
                 <img src="@/assets/ic_exit.svg" alt="" class="button" @click="toClose"/>
             </div>
         </div>
-        <router-view class="content"/>
+        <div class="content-box">
+            <router-view class="content"/>
+        </div>
     </div>
 </template>
 
