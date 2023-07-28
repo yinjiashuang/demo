@@ -29,6 +29,7 @@ const needToLogin = (to: any): boolean => {
   const routerName = ['login'];
   console.log(routerName.indexOf(to.name));
   return routerName.indexOf(to.name) === -1;
+
 };
 
 const checkLogin = (): boolean => {
