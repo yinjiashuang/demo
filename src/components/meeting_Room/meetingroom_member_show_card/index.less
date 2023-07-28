@@ -1,0 +1,60 @@
+.member-card {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  .blue-name {
+    width: 30%;
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background-color: #3f76ff;
+    display: flex !important;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
+
+  }
+
+  .name-card {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    z-index: 111;
+    padding: 3px 5px;
+    background: rgba(0, 0, 0, 0.6);
+
+    display: flex !important;
+    align-items: center;
+
+    img{
+      width: 1.5rem;
+      height: 1.5rem;
+    }
+  }
+
+  .net-connection{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 111;
+
+    padding: 3px 5px;
+    background: rgba(0, 0, 0, 0.6);
+  }
+
+  .member-player{
+    width:100%;
+    height:100%;
+
+    position: absolute;
+    top: 0;
+    left:0;
+    right: 0;
+    bottom:0;
+    z-index:100;
+
+    display:none
+
+  }
+}
