@@ -14,7 +14,9 @@
 
       </div>
     </div>
-    <div class="member-show"></div>
+    <div class="member-show">
+      <div id="showMe" style="width: 400px;height: 200px"></div>
+    </div>
     <div class="footer">
       <div class="botton-bar">
         <meeting-botton :icon-title="camBtnTitle" :icon-name="camBtnIcon"
@@ -29,7 +31,7 @@
                         @click="handleMeetingSetting('frame')"></meeting-botton>
       </div>
       <img class="leave-meeting-button" src="@/assets/meetingroom/ic_meetingroom_leave_room_button.svg" alt=""
-           srcset="">
+           srcset="" @click="leaveRoom">
     </div>
   </div>
 </template>
@@ -44,21 +46,26 @@ import {
   ref, computed, watch,
 } from "vue";
 import meetingBotton from "@/components/meeting_Room/meetingroom_bottom_btn/Index.vue"
-import {ZegoExpressEngine} from 'zego-express-engine-webrtc'
 import {useRouter} from "vue-router";
+import {windows} from "rimraf";
+import {ElMessage} from "element-plus";
+
+const zgEngine = window.require('zego-express-engine-electron/ZegoExpressEngine');
+const zgDefines = window.require('zego-express-engine-electron/ZegoExpressDefines');
 
 let zg = null
+const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo'))
 
 // 会议顶部
 const meetingHeader = reactive({
   meetingName: "XXXXXXX",
   meetingTimer: "00:00:00",
-  meetingID:'',
+  meetingID: '',
   memberCount: 0,
   publishQuality: 5,
 });
 
-meetingHeader.memberCount=computed(()=>{
+meetingHeader.memberCount = computed(() => {
   return meetingMemberList.value.length
 })
 //会议成员显示
@@ -140,8 +147,8 @@ watch(() =>
     (toPath) => {
       //要执行的方法
       const query = router.currentRoute.value.query;
-      meetingHeader.meetingName=query.roomName
-      meetingHeader.meetingID=query.roomId
+      meetingHeader.meetingName = query.roomName
+      meetingHeader.meetingID = query.roomId
     }, {immediate: true, deep: true}
 )
 
@@ -162,27 +169,59 @@ const handleMeetingSetting = (type) => {
   }
 }
 const initMeetingCallback = () => {
+  // 登录房间回调
+  zgEngine.on("onRoomStateUpdate", (param) => {
+    if(param.state == 2){
+      ElMessage.info('进入房间')
+      zgEngine.startPublishingStream('user-123456')
+      console.log(document.getElementById('showMe'))
+      zgEngine.startPreview({
+        canvas: document.getElementById('showMe'),
+      });
+
+
+    }
+  });
+
 }
 const initMeeting = () => {
-  zg = new ZegoExpressEngine(78190877, "39a8cde234ee27d6691d6d503377ad57")
-  zg.setDebugVerbose(false);
-  zg.setSoundLevelDelegate(true); //设置是否监听音浪及音浪回调间隔时间
+  const profile = {
+    appID: 78190877,
+    appSign: "507f7e72bd05ac417581a50c9a8da34014a99c4e055082495beb623c6eb07c62",
+    scenario: zgDefines.ZegoScenario.Default
+  };
+
+  return zgEngine.createEngine(profile)
+}
+const initDeviceStatus = () => {
+}
+const enterMeetingroom = () => {
+  // {meetingHeader.meetingID,userID:userInfo.userId,userName:userInfo.userName}
+  console.log('登录')
+  zgEngine.loginRoom('1234', {userID: 'user-123456', userName: '小殷'})
 }
 
-const enterMeetingroom=()=>{
-
+const leaveRoom=()=>{
+  zgEngine.stopPublishingStream()
+  zgEngine.logoutRoom('1234')
+  zgEngine.destroyEngine()
 }
-onBeforeMount(() => {
-  console.log("组件挂载前");
-  initMeeting()
-});
-
 onMounted(() => {
   console.log("组件挂载完成");
-  initMeetingCallback()
+  initMeeting().then(() => {
+    console.log('初始化zego实例成功===')
+    initMeetingCallback()
+    initDeviceStatus()
+    enterMeetingroom()
+  }).catch(err => {
+    console.log(err)
+    zgEngine.destroyEngine()
+  })
+
 });
+onBeforeUnmount(()=>{
 
-
+})
 </script>
 
 <style lang="less">
