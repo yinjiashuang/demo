@@ -13,7 +13,7 @@ const props = defineProps({
   iconTitle:String,
   iconName:String
 });
-const iconUrl=require(`@/assets/meetingroom/ic_meetingroom_${props.iconName}.svg`)
+const iconUrl=require(`@/assets/meeting_room/ic_meeting_room_${props.iconName}.svg`)
 
 </script>
 
