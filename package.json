@@ -59,6 +59,15 @@
       ],
       "artifactName": "${productName}_${version}.${ext}"
     },
+    "files": [
+      "dist/**/*",
+      "node_modules/**/*",
+      "dist/electron-preload/*",
+      "!node_modules/electron-*",
+      "!node_modules/electron-builder",
+      "!node_modules/electron-prebuilt-compile",
+      "!node_modules/electron-edge-js/**/*"
+    ],
     "nsis": {
       "oneClick": false,
       "perMachine": false,
