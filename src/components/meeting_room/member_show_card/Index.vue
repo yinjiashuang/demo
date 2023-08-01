@@ -5,22 +5,22 @@
     </div>
     <div class="name-card">
       <img
-          src="@/assets/meetingroom/ic_meetingroom_host_tag.svg"
+          src="@/assets/meeting_room/ic_meeting_room_host_tag.svg"
           alt=""
           v-if="isHost"
       />
       <img
-          src="@/assets/meetingroom/ic_meetingroom_mic_off.svg"
+          src="@/assets/meeting_room/ic_meeting_room_mic_off.svg"
           v-if="isMute"
       />
       <img
-          src="@/assets/meetingroom/ic_meetingroom_mic_on.svg"
+          src="@/assets/meeting_room/ic_meeting_room_mic_on.svg"
           v-if="!isMute"
       />
       <span>{{ userName }}</span>
     </div>
-    <div class="net-connection" v-if="connentStatus >= 3">
-      <img src="@/assets/meetingroom/ic_meetingroom_remote_net_bad.svg" />
+    <div class="net-connection" v-if="connectStatus >= 3">
+      <img src="@/assets/meeting_room/ic_meeting_room_remote_net_bad.svg" alt="" />
     </div>
     <div :id="playerID" class="member-player"></div>
   </div>
@@ -36,7 +36,7 @@ const props= defineProps({
   userName:String,
   isMute:Boolean,
   isHost:Boolean,
-  connentStatus:Number,
+  connectStatus:Number,
   userID:String,
   userPlayer:Object,
   isShow:Boolean
