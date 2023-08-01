@@ -1,18 +1,87 @@
-# Vue 3 + TypeScript + Vite
+# 鹰眼会议 Client 端
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+## 如何初始化项目
 
-## Recommended IDE Setup
+1. `index.html.example` 复制并修改为`index.html`
+2. `config.ts.example` 复制并修改为 `config.ts`
+3. `.env.development.example` 复制并修改为`.env.development`
+4`.env.production.example` 复制并修改为`.env.production`
 
-- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+## Vue 文件模板
 
-## Type Support For `.vue` Imports in TS
+```vue
 
-TypeScript cannot handle type information for `.vue` imports by default, so we replace the `tsc` CLI with `vue-tsc` for type checking. In editors, we need [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin) to make the TypeScript language service aware of `.vue` types.
+<template>
+  <div>
+    {{param.param1}}
+  </div>
+</template>
+<script lang="ts" setup>
+import {computed, onMounted, reactive, watch} from 'vue';
 
-If the standalone TypeScript plugin doesn't feel fast enough to you, Volar has also implemented a [Take Over Mode](https://github.com/johnsoncodehk/volar/discussions/471#discussioncomment-1361669) that is more performant. You can enable it by the following steps:
+/**
+ * params
+ */
+type ParamType = {
+  param1: string
+}
+const param = reactive<ParamType>({param1: '1'});
+const computed = computed();
+watch(param, (newValue, oldValue) => {
+  console.log(`${newValue},${oldValue}`);
+});
+/**
+ * method
+ */
+const handle = (): void => {
 
-1. Disable the built-in TypeScript Extension
-   1. Run `Extensions: Show Built-in Extensions` from VSCode's command palette
-   2. Find `TypeScript and JavaScript Language Features`, right click and select `Disable (Workspace)`
-2. Reload the VSCode window by running `Developer: Reload Window` from the command palette.
+};
+/**
+ * lifecycle
+ */
+onMounted(() => {
+  console.log('onMounted');
+});
+</script>
+<style lang="less">
+
+</style>
+
+```
+
+## 命名规范
+
+### assets
+
+- 内部文件夹名称 下划线分割：`meeting_room`
+
+- 图片资源命名规范为：ic_模块_名称，如：`ic_meeting_room_bg.png`
+
+- 感觉为公共使用的图片资源 直接访日`assets`中即可
+
+### less
+
+- less文件命名规范为：less对应的vue文件的拆分，使用下划线分割：如，vue名称为MeetingRoom.vue，less就应该为meeting_room.less
+
+- class名称规范为，使用横杠分割，如：`meeting-room-framework` 或者 `meeting-room-container`
+
+### vue
+
+- 文件命名规范，单词首字母大写，如：`MeetingRoom.vue
+
+- `<script>` 标签内的参数名称按驼峰命名，如 meetingRoomId
+
+- `<script>` 标签内排列顺序为`import`、 `type`、参数、计算属性、`watch`、方法、生命周期 由上至下排列
+
+- `<style>` 便签 不添加scope
+
+- 文件夹命名规范，(`views` 文件夹下 和 `components` 文件夹下均适用)按下划线分割命名，如`meeting_room_grid_frame`
+
+### components
+
+- 公共组件，直接放入`components/common`文件夹下即可，如，封装一个公共弹窗，命名类似`PublicModal.vue`，它应该放在`~/components/common/public_modal/PublicModal.vue`
+  ,伴随组件的应该还会有一个，`public_modal.less`文件
+
+- 组件命名规范，不使用`Index.vue` 或者 `index.vue` 作为组件的命名，直接使用组件功能点为 名称，如：会议室内每一个画面的组件，可以命名为，`MeetingRoomCard.vue` 最为名称，
+  **为的是当你使用该组件时可以有更良好的代码提示**
+

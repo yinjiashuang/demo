@@ -33,5 +33,18 @@ export default defineConfig({
         alias: {
             '@': path.resolve(__dirname, './src')
         }
+    },
+    server: {
+        port: 5173,
+        https: false,
+        host: '0.0.0.0',
+        open: false,
+        proxy: {
+            '/client': {
+                changeOrigin: true,
+                target: 'https://test.stoneintelligent.com:8003/yy/api',
+                rewrite: (path) => path.replace(/^\/client/, '')
+            }
+        }
     }
 });
