@@ -15,7 +15,7 @@
             </div>
         </div>
         <div class="member-show">
-            <canvas id="showMe" style="width: 400px;height: 200px"></canvas>
+            <girdFrame :meetingMemberList="meetingMemberList" :totalPage="meetingHeader.memberCount" />
         </div>
         <div class="footer">
             <div class="button-bar">
@@ -39,6 +39,7 @@
 <script setup lang="js">
 import {computed, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue';
 import meetingButton from '@/components/meetingRoom/MeetingRoomBottomBtn/Index.vue';
+import girdFrame from '@/components/meetingRoom/MeetingRoomGirdFrame/Index.vue'
 import {useRouter} from 'vue-router';
 import {ElMessage} from 'element-plus';
 
@@ -175,8 +176,8 @@ const initMeetingCallback = () => {
                 weight: 5, userName: userInfo.userName, nickName: userInfo.userName.length > 2
                     ? userInfo.userName.slice(-2)
                     : userInfo.userName,
-                isMute:micStatus.value == 1? true:false,
-                isShow:camStatus.value == 1? true:false,
+                isMute: micStatus.value == 1 ? true : false,
+                isShow: camStatus.value == 1 ? true : false
                 
             })
             // zgEngine.startPreview({
@@ -186,6 +187,25 @@ const initMeetingCallback = () => {
             
         }
     });
+
+//     房间内其他用户增加或减少的回调通知
+    zgEngine.on('onRoomUserUpdate', (roomID, updateType, userList) => {
+        if (updateType == 0) { //添加用户
+        
+        } else { //删除用户
+        
+        }
+    })
+//     其他用户推流的增加和减少
+    zgEngine.on('onRoomStreamUpdate', (roomID, updateType, streamList) => {
+        if (updateType == 0) { //增加流
+        
+        } else { // 减少流
+        
+        }
+        
+    })
+    
     
 }
 const initMeeting = () => {
@@ -204,7 +224,7 @@ const initDeviceStatus = () => {
 const enterMeetingRoom = () => {
     // {meetingHeader.meetingID,userID:userInfo.userId,userName:userInfo.userName}
     console.log('登录')
-    zgEngine.loginRoom('1234', {userID: 'user-123456', userName: '小殷'})
+    zgEngine.loginRoom('1234', {userID: 'user-123456', userName: '小殷'}, {isUserStatusNotify: true})
 }
 
 const leaveRoom = () => {
@@ -214,15 +234,15 @@ const leaveRoom = () => {
 }
 onMounted(() => {
     console.log('组件挂载完成');
-    initMeeting().then(() => {
-        console.log('初始化zego实例成功===')
-        initMeetingCallback()
-        initDeviceStatus()
-        enterMeetingRoom()
-    }).catch((err) => {
-        console.log(err)
-        zgEngine.destroyEngine()
-    })
+    // initMeeting().then(() => {
+    //     console.log('初始化zego实例成功===')
+    //     initMeetingCallback()
+    //     initDeviceStatus()
+    //     enterMeetingRoom()
+    // }).catch((err) => {
+    //     console.log(err)
+    //     zgEngine.destroyEngine()
+    // })
     
 });
 onBeforeUnmount(() => {
