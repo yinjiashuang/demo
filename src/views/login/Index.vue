@@ -25,10 +25,10 @@ const fullLoading = ref();
 
 window.electron.ipcRenderer.on('login-success', async (_: any, args: any) => {
     fullLoading.value.close();
-    const res: { access_token: string, type: string } = await $api.getToken({username: args.username, password: args.password});
+    const res: any = await $api.getToken({username: args.username, password: args.password});
     if (res && res.access_token) {
         window.sessionStorage.setItem('token', res.access_token);
-        const userInfoRes = await $api.getUserInfo(args.username);
+        const userInfoRes: any = await $api.getUserInfo(args.username);
         if (userInfoRes && userInfoRes.code == 200 && userInfoRes.result.length > 0) {
             window.sessionStorage.setItem('userInfo', JSON.stringify({
                 username: args.username,
