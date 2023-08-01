@@ -37,7 +37,7 @@
   "build": {
     "appId": "com.stone.hawk.client",
     "productName": "鹰眼会议",
-    "asar": true,
+    "asar": false,
     "copyright": "Copyright © 2023 stone",
     "directories": {
       "output": "release/${version}"
