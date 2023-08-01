@@ -22,14 +22,15 @@
     <div class="net-connection" v-if="connectStatus >= 3">
       <img src="@/assets/meeting_room/ic_meeting_room_remote_net_bad.svg" alt="" />
     </div>
-    <div :id="playerID" class="member-player"></div>
+    <canvas :id="playerID" class="member-player"></canvas>
   </div>
 
 </template>
 
 
 <script setup lang="ts">
-import {computed} from "vue";
+import {computed, onMounted, onUnmounted} from 'vue';
+const zgEngine = window.zgEngine;
 
 const props= defineProps({
   nickName:String,
@@ -44,6 +45,16 @@ const props= defineProps({
 
 const playerID = computed(()=>{
   return `player_${props.userID}`
+})
+
+onMounted(()=>{
+    zgEngine.startPreview({
+        canvas: document.getElementById(playerID.value)
+    });
+})
+
+onUnmounted(()=>{
+    zgEngine.stopPreview();
 })
 
 </script>

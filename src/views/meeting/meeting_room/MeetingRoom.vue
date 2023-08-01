@@ -2,7 +2,7 @@
     <div class="meeting-room-framework">
         <div class="header">
             <div class="header-item"></div>
-            <div class="header-item">{{ meetingHeader.meetingName }}</div>
+            <div class="header-item">{{ queryMeetingParams.roomName }}</div>
             
             <div class="header-item header-status">
                 <div class="header-item">会议人数: {{ meetingHeader.memberCount }}</div>
@@ -15,7 +15,8 @@
             </div>
         </div>
         <div class="member-show">
-            <girdFrame :meetingMemberList="meetingMemberList" :totalPage="meetingHeader.memberCount" />
+            <gird-frame v-if="!frameStatus" :meetingMemberList="meetingMemberList" :totalPage="meetingHeader.memberCount"/>
+            <speaker-frame v-else :meetingMemberList="meetingMemberList"/>
         </div>
         <div class="footer">
             <div class="button-bar">
@@ -40,6 +41,7 @@
 import {computed, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue';
 import meetingButton from '@/components/meeting_room/bottom_btn/Index.vue';
 import girdFrame from '@/components/meeting_room/gird_frame/Index.vue'
+import speakerFrame from '@/components/meeting_room/speaker_frame/Index.vue'
 import {useRouter} from 'vue-router';
 import {ElMessage} from 'element-plus';
 
@@ -48,14 +50,20 @@ const zgDefines = window.zgDefines;
 
 let zg = null
 const userInfo = JSON.parse(`${window.sessionStorage.getItem('userInfo')}`);
-
+// 通过路由传递的参数
+const queryMeetingParams = ref({
+    roomId: '',
+    roomName: 'XXXXX',
+    enable_mic: 0,
+    enable_camera: 0,
+    hostUserId: 'user-123456'
+})
 // 会议顶部
 const meetingHeader = reactive({
-    meetingName: 'XXXXXXX',
     meetingTimer: '00:00:00',
-    meetingID: '',
     memberCount: 0,
     publishQuality: 5
+    
 });
 
 meetingHeader.memberCount = computed(() => {
@@ -143,12 +151,16 @@ watch(() =>
         router.currentRoute.value.path,
     () => {
         //要执行的方法
-        const query = router.currentRoute.value.query;
-        meetingHeader.meetingName = query.roomName
-        meetingHeader.meetingID = query.roomId
+        const query = JSON.parse(JSON.stringify(router.currentRoute.value.query));
+        queryMeetingParams.value = query
     }, {immediate: true, deep: true}
 )
-
+//获取用户在数组中的index
+const getMemberIndex = (userID) => {
+    return meetingMemberList.value.findIndex(e => {
+        return e.userID === userID
+    })
+}
 const handleMeetingSetting = (type) => {
     switch (type) {
         case 'cam':
@@ -170,37 +182,68 @@ const initMeetingCallback = () => {
     zgEngine.on('onRoomStateUpdate', (param) => {
         if (param.state == 2) {
             ElMessage.info('进入房间')
-            
-            zgEngine.startPublishingStream('user-123456')
+            //todo替换正常变量
+            // {
+            //     weight: 5, userName: userInfo.userName, nickName: userInfo.userName.length > 2
+            //     ? userInfo.userName.slice(-2)
+            //     : userInfo.userName,
+            //     isMute: micStatus.value == 1 ? true : false,
+            //     isShow: camStatus.value == 1 ? true : false,
+            //     isHost:queryMeetingParams.value.hostUserId == userInfo.userId,
+            //     connectStatus: 0,
+            //     userID:userInfo.userId,
+            //
+            // }
             meetingMemberList.value.push({
-                weight: 5, userName: userInfo.userName, nickName: userInfo.userName.length > 2
-                    ? userInfo.userName.slice(-2)
-                    : userInfo.userName,
-                isMute: micStatus.value == 1 ? true : false,
-                isShow: camStatus.value == 1 ? true : false
+                weight: 5,
+                userName: '殷嘉爽',
+                nickName: '小殷',
+                isMute: false,
+                isShow: false,
+                isHost: true,
+                connectStatus: 0,
+                userID: 'user-123456'
                 
             })
-            // zgEngine.startPreview({
-            //     canvas: document.getElementById('showMe')
-            // });
+            
+            zgEngine.startPublishingStream('user-123456')
             
             
         }
     });
 
 //     房间内其他用户增加或减少的回调通知
-    zgEngine.on('onRoomUserUpdate', (roomID, updateType, userList) => {
-        if (updateType == 0) { //添加用户
-        
+    zgEngine.on('onRoomUserUpdate', (roomUserUpdate) => {
+        if (roomUserUpdate.updateType == 0) { //添加用户
+            roomUserUpdate.userList.forEach((e) => {
+                meetingMemberList.value.push({
+                    weight: queryMeetingParams.value.hostUserId == e.userID ? 4 : 0,
+                    userName: e.userName,
+                    nickName: e.userName.length > 2
+                        ? e.userName.slice(-2)
+                        : e.userName,
+                    isMute: false,
+                    isShow: false,
+                    isHost: queryMeetingParams.value.hostUserId == e.userID,
+                    connectStatus: 0,
+                    userID: e.userID
+                    
+                })
+            })
         } else { //删除用户
-        
+            roomUserUpdate.userList.forEach((e) => {
+                getMemberIndex(e.userID) != -1 && meetingMemberList.value.splice(getMemberIndex(e.userName), 1)
+            })
         }
     })
 //     其他用户推流的增加和减少
-    zgEngine.on('onRoomStreamUpdate', (roomID, updateType, streamList) => {
-        if (updateType == 0) { //增加流
+    zgEngine.on('onRoomStreamUpdate', (roomStreamUpdate) => {
+        console.log('onRoomStreamUpdate', roomStreamUpdate, '=======')
+        if (roomStreamUpdate.updateType == 0) { //增加流
+        
         
         } else { // 减少流
+        
         
         }
         
@@ -222,27 +265,27 @@ const initDeviceStatus = () => {
     micStatus.value = zgEngine.getAudioDeviceList(0).length == 0 ? -1 : 0
 }
 const enterMeetingRoom = () => {
-    // {meetingHeader.meetingID,userID:userInfo.userId,userName:userInfo.userName}
+    //todo测试数据替换{meetingHeader.meetingID,userID:userInfo.userId,userName:userInfo.userName}
     console.log('登录')
-    zgEngine.loginRoom('1234', {userID: 'user-123456', userName: '小殷'}, {isUserStatusNotify: true})
+    zgEngine.loginRoom('663307573', {userID: 'user-123456', userName: '殷嘉爽'}, {isUserStatusNotify: true})
+    
 }
 
 const leaveRoom = () => {
     zgEngine.stopPublishingStream()
-    zgEngine.logoutRoom('1234')
+    zgEngine.logoutRoom('663307573')
     zgEngine.destroyEngine()
 }
 onMounted(() => {
-    console.log('组件挂载完成');
-    // initMeeting().then(() => {
-    //     console.log('初始化zego实例成功===')
-    //     initMeetingCallback()
-    //     initDeviceStatus()
-    //     enterMeetingRoom()
-    // }).catch((err) => {
-    //     console.log(err)
-    //     zgEngine.destroyEngine()
-    // })
+    initMeeting().then(() => {
+        console.log('初始化zego实例成功===')
+        initMeetingCallback()
+        initDeviceStatus()
+        enterMeetingRoom()
+    }).catch((err) => {
+        console.log(err)
+        zgEngine.destroyEngine()
+    })
     
 });
 onBeforeUnmount(() => {

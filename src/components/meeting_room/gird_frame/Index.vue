@@ -7,7 +7,7 @@
                 <img v-else class="left-button available-left" src="@/assets/meeting_room/ic_meeting_room_left_page_normal.svg" alt="" @click="turnPage(0)">
             </div>
             <div class="member-screen">
-                <div v-for="page in totalPage" :key=page v-show="page === girdFrame.currentPage">
+                <div class="member-pagination" v-for="page in totalPage" :key=page v-show="page === girdFrame.currentPage">
                     <member-card :class="getMemberClass(page)" v-for="item in getCurrentPageUsers(page)"
                                  :nickName="item.nickName"
                                  :userName="item.userName"
