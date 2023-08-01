@@ -1,5 +1,12 @@
 # 鹰眼会议 Client 端
 
+## 如何初始化项目
+
+1. `index.html.example` 复制并修改为`index.html`
+2. `config.ts.example` 复制并修改为 `config.ts`
+3. `.env.development.example` 复制并修改为`.env.development`
+4`.env.production.example` 复制并修改为`.env.production`
+
 ## Vue 文件模板
 
 ```vue

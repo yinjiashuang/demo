@@ -34,7 +34,7 @@ const needToLogin = (to: any): boolean => {
 
 const checkLogin = (): boolean => {
   const token = window.sessionStorage.getItem('token') || '';
-  console.log('token:', token);
+  console.log('token::::', token);
   return token.length > 0;
 };
 
