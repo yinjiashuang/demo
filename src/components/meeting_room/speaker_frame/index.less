@@ -1,0 +1,35 @@
+.speaker-frame{
+    width: 100%;
+    height: 100%;
+    position: relative;
+
+    .speaker-frame-right{
+        width: 28.625rem;
+        height: 100%;
+        background: rgba(2, 2, 19, 0.80);
+
+        position: absolute;
+        right: 0;
+        top: 0;
+        bottom: 0;
+
+        overflow-y: auto;
+
+        .left-item{
+            height: calc(100% - 4.6875rem - 60px - 2.5rem);
+            left: 0;
+            right: 28.7rem;
+            position: fixed;
+
+            background-color: rgba(29,29,29,0.8);
+
+        }
+        .right-item{
+            margin-bottom:0.13rem;
+            height:15.5625rem
+        }
+
+
+    }
+}
+
