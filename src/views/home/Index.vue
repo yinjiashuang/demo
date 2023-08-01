@@ -1,6 +1,6 @@
 <template>
     <div class="home-container">
-        <div class="toolbar">
+        <div class="toolbar" :class="{'debug': isDev}">
             <img class="logo" src="@/assets/ic_logo.svg" alt=""/>
             <span class="title">鹰眼会议</span>
             <div class="toolbar-operate-area">
@@ -16,10 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import {useRouter} from 'vue-router';
+import {ref} from 'vue';
 
-const router = useRouter();
-
+const isDev = ref(import.meta.env.MODE == 'development');
 /**
  * method
  */
@@ -34,11 +33,6 @@ const toMax = (): void => {
 const toClose = (): void => {
     window.electron.ipcRenderer.send('exit');
     console.log('关闭');
-};
-
-const back = () => {
-    window.sessionStorage.setItem('token', '');
-    router.back();
 };
 </script>
 
