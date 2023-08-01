@@ -2,7 +2,7 @@ import {RouteRecordRaw} from 'vue-router';
 import meetingList from '@/views/meeting/list/Index.vue';
 import joinMeeting from '@/views/meeting/join/Join.vue';
 import Scheduled from '@/views/meeting/scheduled/Scheduled.vue';
-import meetingRoom from '@/views/meeting/meetingRoom/MeetingRoom.vue'
+import meetingRoom from '@/views/meeting/meeting_room/MeetingRoom.vue'
 
 export const meetingRoutes: Array<RouteRecordRaw> = [
     {
