@@ -38,8 +38,8 @@
 
 <script setup lang="js">
 import {computed, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue';
-import meetingButton from '@/components/meetingRoom/MeetingRoomBottomBtn/Index.vue';
-import girdFrame from '@/components/meetingRoom/MeetingRoomGirdFrame/Index.vue'
+import meetingButton from '@/components/meeting_room/bottom_btn/Index.vue';
+import girdFrame from '@/components/meeting_room/gird_frame/Index.vue'
 import {useRouter} from 'vue-router';
 import {ElMessage} from 'element-plus';
 

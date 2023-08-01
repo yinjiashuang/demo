@@ -39,7 +39,7 @@
 <script setup lang="ts">
 import {require} from '@/utils/require.ts';
 import {computed, onMounted, reactive} from 'vue';
-import memberCard from '@/components/meetingRoom/MeetingRoomMemberShowCard/Index.vue';
+import memberCard from '@/components/meeting_room/member_show_card/Index.vue';
 
 
 const props = defineProps({meetingMemberList: Array, totalPage: Number});
@@ -49,7 +49,7 @@ const girdFrame = reactive({
     currentPage: 1,
     
 });
-
+//左侧翻页按钮是否可点击状态
 girdFrame.isClickable_l = computed(() => {
     if (props.totalPage == 1) {
         return false;
@@ -60,7 +60,7 @@ girdFrame.isClickable_l = computed(() => {
         return true;
     }
 }).value
-
+//右侧翻页按钮是否可点击状态
 girdFrame.isClickable_r = computed(() => {
     if (props.totalPage == 1) {
         return false;
@@ -73,7 +73,7 @@ girdFrame.isClickable_r = computed(() => {
         return false
     }
 }).value
-
+//当前页面显示用户列表
 const getCurrentPageUsers = (page:any) => {
     let filterArr = [];
     filterArr = (props.meetingMemberList as any).filter(
