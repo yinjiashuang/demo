@@ -10,7 +10,11 @@ export const IpcMainEvent = (mainWindow: BrowserWindow): void => {
     });
 
     ipcMain.on('maximize', () => {
-        mainWindow.maximize();
+        if (mainWindow.isMaximized()) {
+            mainWindow.restore()
+        }else {
+            mainWindow.maximize();
+        }
     });
 
     ipcMain.on('login', (_, url) => {

@@ -30,7 +30,6 @@ const createWindow = async () => {
         await mainWindow.loadURL(url);
     }
     IpcMainEvent(mainWindow);
-    mainWindow.webContents.openDevTools({mode: 'left'});
 };
 
 app.setAsDefaultProtocolClient('StoneHawkMeetingClient');
