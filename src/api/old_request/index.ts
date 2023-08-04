@@ -1,15 +1,15 @@
-import axios from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 import {ElMessage} from 'element-plus';
 import {getToken} from '@/api/authentication.ts';
 
 const service = axios.create({
     baseURL: '/client',
-    timeout: 5000000
+    timeout: 5_000_000
 });
 
 // request interceptor
-service.interceptors.request.use(
-    async (config: any) => {
+service.interceptors.request.use(async (config: AxiosRequestConfig) => {
+    if (config.headers) {
         config.headers['Accept-Language'] = 'en'; //todo暂时没有中英文切换需求 230725
         const token = window.sessionStorage.getItem('token');
         config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
@@ -17,10 +17,9 @@ service.interceptors.request.use(
         if (token) {
             config.headers.Authorization = 'Bearer ' + token;
         }
-        return config;
-    },
-    error => Promise.reject(error)
-);
+    }
+    return config;
+}, error => Promise.reject(error));
 
 service.interceptors.response.use(
     response => {

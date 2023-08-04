@@ -1,4 +1,4 @@
-import request from '@/api/index.ts';
+import request from '@/api/old_request/index.ts';
 
 // 获取token
 export function getToken(data: any) {

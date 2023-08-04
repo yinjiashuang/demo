@@ -27,14 +27,12 @@ Router.beforeEach((to, _, next) => {
 
 const needToLogin = (to: any): boolean => {
   const routerName = ['login'];
-  console.log(routerName.indexOf(to.name));
   return routerName.indexOf(to.name) === -1;
 
 };
 
 const checkLogin = (): boolean => {
   const token = window.sessionStorage.getItem('token') || '';
-  console.log('token::::', token);
   return token.length > 0;
 };
 

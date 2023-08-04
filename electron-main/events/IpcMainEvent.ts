@@ -31,10 +31,10 @@ export const IpcMainEvent = (mainWindow: BrowserWindow): void => {
 
 const urlTool = (url: string) => {
     //将url用“?”和“&”分割;
-    const array: Array<String> = url.split('?').pop().split('&');
+    const array: Array<String> = (url.split('?').pop() || '').split('&');
 
     //声明一个空对象用来储存分割后的参数；
-    const data = {};
+    const data: any = {};
 
     array.forEach((ele) => {
 
