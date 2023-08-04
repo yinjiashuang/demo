@@ -27,7 +27,6 @@ const createWindow = async () => {
         await mainWindow.loadFile(path.join(__dirname, '../index.html'));
     } else {
         let url = 'http://localhost:5173'; // 本地启动的vue项目路径
-        // let url = 'https://tanikawa-tis.dev.tanikawa.com/update'; // 本地启动的vue项目路径
         await mainWindow.loadURL(url);
     }
     IpcMainEvent(mainWindow);
@@ -37,12 +36,6 @@ app.setAsDefaultProtocolClient('StoneHawkMeetingClient');
 app.whenReady().then(async () => {
     // 创建窗口
     await createWindow();
-    // installExtension(REDUX_DEVTOOLS)
-    //     .then((name) => {
-    //         console.log(`Added Extension: ${name}`);
-    //     }).catch((error) => {
-    //     console.log(`An error occurred`, error);
-    // });
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });

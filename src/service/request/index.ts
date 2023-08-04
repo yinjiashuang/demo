@@ -1,7 +1,7 @@
 import axios, {AxiosInstance, AxiosResponse, InternalAxiosRequestConfig} from 'axios';
-import type {CreateRequestConfig, RequestConfig, RequestInterceptors} from '@/service/request/types.ts';
+import type {CreateRequestConfig, RequestConfig, RequestInterceptors} from './types';
 
-class Request {
+class Index {
     // axios 实例
     instance: AxiosInstance;
     // 拦截器对象
@@ -69,6 +69,29 @@ class Request {
                 });
         });
     }
+
+    /**
+     * 取消全部请求
+     */
+    cancelAllRequest() {
+        for (const [, controller] of this.abortControllerMap) {
+            controller.abort();
+        }
+        this.abortControllerMap.clear();
+    }
+
+    /**
+     * 取消指定的请求
+     * @param url 待取消的请求URL
+     */
+    cancelRequest(url: string | string[]) {
+        const urlList = Array.isArray(url) ? url : [url];
+        for (const _url of urlList) {
+            this.abortControllerMap.get(_url)?.abort();
+            this.abortControllerMap.delete(_url);
+        }
+    }
 }
 
-export default Request;
+export default Index;
+export {RequestConfig, RequestInterceptors};

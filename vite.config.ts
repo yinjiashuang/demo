@@ -46,7 +46,7 @@ export default defineConfig(({mode}: ConfigEnv) => {
                     changeOrigin: true,
                     target: env.VITE_APP_BASE_URL,
                     rewrite: (path) => path.replace(/^\/client/, '')
-                }
+                },
             }
         }
     };
