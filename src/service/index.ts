@@ -65,5 +65,4 @@ const TokenRequest = (config: TokenRequestConfig) => {
 //   return request.cancelAllRequest()
 // }
 
-export default BaseRequest;
-export {TokenRequest};
+export {TokenRequest, BaseRequest};

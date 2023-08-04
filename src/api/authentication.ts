@@ -1,5 +1,5 @@
 import request from '@/api/old_request/index.ts';
-import BaseRequest, {TokenRequest} from '@/service/index.ts';
+import {BaseRequest, TokenRequest} from '@/service/index.ts';
 
 // 获取token
 export function getToken(data: any) {

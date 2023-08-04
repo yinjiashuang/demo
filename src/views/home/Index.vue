@@ -1,6 +1,6 @@
 <template>
     <div class="home-container">
-        <div class="toolbar" v-if="isElectron()">
+        <div class="toolbar">
             <div class="drag-area"/>
             <img class="logo" src="@/assets/ic_logo.svg" alt=""/>
             <span class="title">鹰眼会议</span>
@@ -11,7 +11,7 @@
             </div>
         </div>
         <div class="content-box">
-            <router-view class="content" :class="{'content-not-electron': !isElectron()}"/>
+            <router-view class="content"/>
         </div>
     </div>
 </template>
@@ -22,25 +22,15 @@
  * method
  */
 const toMin = (): void => {
-    console.log(window.self, window.top);
-    if (window.self == window.top) {
-        window.electron.ipcRenderer.send('minimize');
-    }
+    window.electron.ipcRenderer.send('minimize');
 };
 
 const toMax = (): void => {
-    if (window.self == window.top) {
-        window.electron.ipcRenderer.send('maximize');
-    }
+    window.electron.ipcRenderer.send('maximize');
 };
 
 const toClose = (): void => {
-    if (window.self == window.top) {
-        window.electron.ipcRenderer.send('exit');
-    }
-};
-const isElectron = (): boolean => {
-    return window.self != window.top;
+    window.electron.ipcRenderer.send('exit');
 };
 </script>
 
