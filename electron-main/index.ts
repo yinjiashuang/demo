@@ -11,6 +11,7 @@ const createWindow = async () => {
         minWidth: 1300,
         minHeight: 850,
         show: false,
+        resizable: true,
         webPreferences: {
             contextIsolation: false, // 是否开启隔离上下文
             nodeIntegration: true, // 渲染进程使用node api
