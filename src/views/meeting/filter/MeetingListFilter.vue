@@ -6,7 +6,7 @@
         v-for="(item, index) in tabs"
         :key="index"
         class="filter-tab"
-        :class="{ selected: index == currentTab }"
+        :class="{ selected: index == props.currentTab }"
         @click="changeTab(index)"
       >
         {{ item }}
@@ -38,24 +38,30 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from "vue";
-import { Search } from "@element-plus/icons-vue";
+import {reactive, ref} from 'vue';
+import {Search} from '@element-plus/icons-vue';
 
 // tab
 const tabs = reactive(["全部", "已开始", "未开始", "我预定"]);
 // 当前tab
-const currentTab = ref(0);
+const props = defineProps({
+    currentTab: Number,
+});
 // 日期区间
 const dateRange = ref("");
 // 搜索内容
 const searchContent = ref("");
+
+const emits = defineEmits(['changeTab']);
+
+
 
 /**
  * method
  */
 // 切换tab
 const changeTab = (index: number): void => {
-  currentTab.value = index;
+    emits('changeTab', index);
 };
 // 输入框输入内容变化
 const searchContentChange = (change: string): void => {
