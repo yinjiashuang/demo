@@ -15,20 +15,19 @@
 <script setup lang="ts">
 import {ref} from 'vue';
 import {useRouter} from 'vue-router';
-import {ElLoading} from 'element-plus';
-import * as $api from '@/api/authentication.ts';
+import {getNewToken, getUserInfo} from '@/api/authentication.ts';
 import {Configs} from '@/config.ts';
+import {ElLoading} from 'element-plus';
 
 const router = useRouter();
 
 const fullLoading = ref();
-
 window.electron.ipcRenderer.on('login-success', async (_: any, args: any) => {
     fullLoading.value.close();
-    const res: any = await $api.getToken({username: args.username, password: args.password});
+    const res = await getNewToken({username: args.username, password: args.password});
     if (res && res.access_token) {
         window.sessionStorage.setItem('token', res.access_token);
-        const userInfoRes: any = await $api.getUserInfo(args.username);
+        const userInfoRes: any = await getUserInfo(args.username);
         if (userInfoRes && userInfoRes.code == 200 && userInfoRes.result.length > 0) {
             window.sessionStorage.setItem('userInfo', JSON.stringify({
                 username: args.username,
@@ -42,10 +41,12 @@ window.electron.ipcRenderer.on('login-success', async (_: any, args: any) => {
     if (fullLoading.value) {
         fullLoading.value.close();
     }
+    
 });
 const openFullLoading = async (): Promise<void> => {
     fullLoading.value = ElLoading.service({fullscreen: true, target: 'login-container'});
     window.electron.ipcRenderer.send('login', Configs.clientLoginUrl);
+    
 };
 const loading = ref<boolean>(false);
 </script>

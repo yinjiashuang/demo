@@ -11,6 +11,7 @@ const createWindow = async () => {
         minWidth: 1300,
         minHeight: 850,
         show: false,
+        resizable: true,
         webPreferences: {
             contextIsolation: false, // 是否开启隔离上下文
             nodeIntegration: true, // 渲染进程使用node api
@@ -30,19 +31,12 @@ const createWindow = async () => {
         await mainWindow.loadURL(url);
     }
     IpcMainEvent(mainWindow);
-    mainWindow.webContents.openDevTools({mode: 'left'});
 };
 
 app.setAsDefaultProtocolClient('StoneHawkMeetingClient');
 app.whenReady().then(async () => {
     // 创建窗口
     await createWindow();
-    // installExtension(REDUX_DEVTOOLS)
-    //     .then((name) => {
-    //         console.log(`Added Extension: ${name}`);
-    //     }).catch((error) => {
-    //     console.log(`An error occurred`, error);
-    // });
     app.on('activate', () => {
         if (BrowserWindow.getAllWindows().length === 0) createWindow();
     });

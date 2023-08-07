@@ -1,6 +1,7 @@
 <template>
     <div class="home-container">
-        <div class="toolbar" :class="{'debug': isDev}">
+        <div class="toolbar">
+            <div class="drag-area"/>
             <img class="logo" src="@/assets/ic_logo.svg" alt=""/>
             <span class="title">鹰眼会议</span>
             <div class="toolbar-operate-area">
@@ -16,9 +17,7 @@
 </template>
 
 <script setup lang="ts">
-import {ref} from 'vue';
 
-const isDev = ref(import.meta.env.MODE == 'development');
 /**
  * method
  */
@@ -32,7 +31,6 @@ const toMax = (): void => {
 
 const toClose = (): void => {
     window.electron.ipcRenderer.send('exit');
-    console.log('关闭');
 };
 </script>
 

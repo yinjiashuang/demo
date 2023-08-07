@@ -1,23 +1,33 @@
 .home-container {
-
+    position: relative;
 
     .toolbar {
-        width: calc(100vw - 40px);
+        z-index: 900;
         background: #000C26;
         height: 60px;
         display: flex;
         flex-direction: row;
         align-items: center;
         padding: 0 20px;
-        position: relative;
-        -webkit-app-region: drag;
+
+        .drag-area {
+            z-index: 991;
+            height: 30px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 10px;
+            -webkit-app-region: drag;
+        }
 
         .logo {
+            z-index: 992;
             width: 64px;
             height: 34px;
         }
 
         .title {
+            z-index: 992;
             color: white;
             flex: 1;
             font-size: 24px;
@@ -26,9 +36,10 @@
         }
 
         .toolbar-operate-area {
+            z-index: 992;
+            -webkit-app-region: no-drag;
 
             .button {
-                -webkit-app-region: none;
                 width: 32px;
                 height: 32px;
                 object-fit: cover;
@@ -52,10 +63,7 @@
         .content {
             width: 100vw;
             height: calc(100vh - 60px);
-        }
-    }
 
-    .debug {
-        -webkit-app-region: none;
+        }
     }
 }
