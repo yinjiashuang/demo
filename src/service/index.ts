@@ -8,6 +8,7 @@ export interface BaseResponse<T> {
     code: number;
     msg: string;
     result: T;
+    count?: number;
 }
 
 // 重写返回类型
