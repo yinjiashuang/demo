@@ -17,7 +17,9 @@
     "element-plus": "^2.3.8",
     "moment": "^2.29.4",
     "vue": "^3.3.4",
+    "vue-clipboard3": "^2.0.0",
     "vue-router": "^4.2.4",
+    "vuex": "^4.1.0",
     "zego-express-engine-electron": "*",
     "zego-express-engine-webrtc": "^2.25.6"
   },
