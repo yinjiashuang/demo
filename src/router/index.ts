@@ -15,7 +15,6 @@ Router.beforeEach((to, _, next) => {
   if (needToLogin(to)) {
     if (checkLogin()) {
       next();
-      console.log('已经登录了');
     } else {
       next({name: 'login'});
     }

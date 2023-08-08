@@ -1,7 +1,7 @@
 import {contextBridge} from 'electron';
 import {ElectronAPI, electronAPI} from './toolkit';
 
-const TRTCCloud = require('trtc-electron-sdk').default;
+import TRTCCloud from 'trtc-electron-sdk/liteav/trtc';
 // Custom APIs for renderer
 const api = {};
 
@@ -26,6 +26,6 @@ declare global {
     interface Window {
         electron: ElectronAPI;
         api: {};
-        trtc: typeof TRTCCloud;
+        trtc: TRTCCloud;
     }
 }
