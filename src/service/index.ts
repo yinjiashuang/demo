@@ -27,7 +27,7 @@ const request = new Request({
         // 请求拦截器
         requestInterceptors: config => {
             if (config.headers) {
-                config.headers['Accept-Language'] = 'en';
+                config.headers['Accept-Language'] = 'zh';
                 const token = window.sessionStorage.getItem('token') || '';
                 if (token !== '') {
                     config.headers.Authorization = `Bearer ${token}`;

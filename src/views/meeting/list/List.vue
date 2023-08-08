@@ -5,12 +5,12 @@
 </template>
 <script setup lang="ts">
 import MeetingListCard from '@/components/meeting_list/MeetingListCard.vue';
-import {IMeetingList} from '@/api/meeting_list';
+import {IMeeting} from '@/api/meeting_list';
 import {reactive} from 'vue';
 
 const props = defineProps({
     currentTab: Number,
-    list: Array<IMeetingList>
+    list: Array<IMeeting>
 });
 // 当前用户信息
 const userInfo = reactive(JSON.parse(window.sessionStorage.getItem('userInfo')));

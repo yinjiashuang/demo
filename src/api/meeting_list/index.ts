@@ -12,15 +12,31 @@
 
 import {BaseRequest} from '@/service';
 
-export const getMeetingList = (params: { meeting_status: number, originator?: string }) => {
-    return BaseRequest<{ meeting_status: number }, Array<IMeetingList>>({
+/**
+ * 获取会议列表
+ * @param params 参数
+ */
+export const getMeetingList = (params: { meeting_id?: string, meeting_status: number, originator?: string }) => {
+    return BaseRequest<{ meeting_id?: string, meeting_status: number, originator?: string }, Array<IMeeting>>({
         url: '/v1/remote/online/meeting/read',
         method: 'get',
         params: {...params}
     });
 };
 
-export interface IMeetingList {
+/**
+ * 加入会议
+ * @param data
+ */
+export const joinMeeting = (data: { meeting_id: string }) => {
+    return BaseRequest<{ meeting_id: string }, IMeeting>({
+        url: '/v1/remote/online/meeting/join',
+        method: 'put',
+        data
+    });
+};
+
+export interface IMeeting {
     meeting_id: string,
     meeting_name: string,
     reserve_start_time: string | Date,

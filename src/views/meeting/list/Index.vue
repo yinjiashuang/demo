@@ -17,7 +17,7 @@ import MeetingMenu from '@/components/menu/MeetingMenu.vue';
 import MeetingListFilter from '@/views/meeting/filter/MeetingListFilter.vue';
 import MeetingList from '@/views/meeting/list/List.vue';
 import {computed, onMounted, ref} from 'vue';
-import {getMeetingList, IMeetingList} from '@/api/meeting_list';
+import {getMeetingList, IMeeting} from '@/api/meeting_list';
 import * as moment from 'moment/moment';
 
 /**
@@ -26,13 +26,13 @@ import * as moment from 'moment/moment';
 // 当前tab
 const currentTab = ref(0);
 // 全部
-const allList = ref<Array<IMeetingList>>([]);
+const allList = ref<Array<IMeeting>>([]);
 // 已开始
-const startedList = ref<Array<IMeetingList>>([]);
+const startedList = ref<Array<IMeeting>>([]);
 // 未开始
-const unStartList = ref<Array<IMeetingList>>([]);
+const unStartList = ref<Array<IMeeting>>([]);
 // 我预定
-const scheduledList = ref<Array<IMeetingList>>([]);
+const scheduledList = ref<Array<IMeeting>>([]);
 
 const showPlaceHolder = computed(() => {
     let result = false;
