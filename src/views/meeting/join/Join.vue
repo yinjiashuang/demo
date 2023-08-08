@@ -20,7 +20,7 @@
                     />
                 </el-form-item>
             </el-form>
-            <el-button class="button" size="large" type="primary" @click="handleButton">
+            <el-button class="button" size="large" type="primary" @click="handleButton" :loading="loading">
                 {{ isJoin ? '加入会议' : '创建并加入会议' }}
             </el-button>
             <div class="join-change-device-box">
@@ -42,6 +42,8 @@ interface IJoinForm {
     roomId: string;
 }
 
+const router = useRouter();
+const route = useRoute();
 // 是否为加入
 const isJoin = ref(true);
 // 房间id
@@ -54,16 +56,16 @@ const isEnableMic = ref(true);
 const isEnableCamera = ref(true);
 // ref
 const joinForm = ref<FormInstance>();
-const router = useRouter();
-const route = useRoute();
-const validateRoomID = (rules, value, cb) => {
+// 按钮加载
+const loading = ref(false);
+const validateRoomID = (_: any, value: any, callback: any) => {
     if (!value) {
-        cb(new Error('请输入会议号'));
+        callback(new Error('请输入会议号'));
     } else {
         if (value.length !== 9) {
-            cb(new Error('会议号应为9位，请重新确认会议号'));
+            callback(new Error('会议号应为9位，请重新确认会议号'));
         } else {
-            cb();
+            callback();
         }
     }
 };
@@ -79,8 +81,13 @@ const rules = {
 /**
  * method
  */
-// 返回
+/**
+ * 返回
+ */
 const back = (): void => {
+    if (loading.value) {
+        return;
+    }
     router.back();
 };
 
@@ -94,6 +101,7 @@ const handleInput = (value: string): void => {
 
 const handleButton = async (): Promise<any> => {
     if (joinForm.value?.validate()) {
+        loading.value = true;
         // 加入会议
         if (isJoin.value) {
             const params = {
@@ -115,6 +123,7 @@ const handleButton = async (): Promise<any> => {
             } else {
                 ElMessage.error(res.msg);
             }
+            loading.value = true;
         } else {
             // 创建会议
             // todo 先预定会议 再加入会议
