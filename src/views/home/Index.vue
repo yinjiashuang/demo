@@ -1,7 +1,7 @@
 <template>
     <div class="home-container">
         <div class="toolbar">
-            <div class="drag-area"/>
+            <div class="drag-area" v-if="false"/>
             <img class="logo" src="@/assets/ic_logo.svg" alt=""/>
             <span class="title">鹰眼会议</span>
             <div class="toolbar-operate-area">
