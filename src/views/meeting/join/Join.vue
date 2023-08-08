@@ -34,7 +34,7 @@
 import {RouteLocationRaw, useRoute, useRouter} from 'vue-router';
 import {onMounted, reactive, ref} from 'vue';
 import {ArrowLeft} from '@element-plus/icons-vue';
-import * as moment from 'moment';
+import * as moment from 'moment/moment';
 import {ElMessage, FormInstance} from 'element-plus';
 import {joinMeeting} from '@/api/meeting_list';
 
@@ -45,7 +45,7 @@ interface IJoinForm {
 const router = useRouter();
 const route = useRoute();
 // 是否为加入
-const isJoin = ref(true);
+const isJoin = ref(false);
 // 房间id
 const formValue = reactive<IJoinForm>({
     roomId: ''
@@ -58,7 +58,12 @@ const isEnableCamera = ref(true);
 const joinForm = ref<FormInstance>();
 // 按钮加载
 const loading = ref(false);
-const validateRoomID = (_: any, value: any, callback: any) => {
+const validateRoomID = (rule: any, value: any, callback: any) => {
+    console.log(rule);
+    if (!isJoin.value) {
+        callback();
+        return;
+    }
     if (!value) {
         callback(new Error('请输入会议号'));
     } else {
@@ -72,7 +77,7 @@ const validateRoomID = (_: any, value: any, callback: any) => {
 const rules = {
     roomId: {
         trigger: 'blur',
-        required: true,
+        required: isJoin.value === true,
         message: '请输入会议号',
         validator: validateRoomID
     }
@@ -138,12 +143,17 @@ const createMeeting = (): void => {
     const endTime = now.add(30, 'minute').format('YYYY-MM-DD HH:mm:ss');
     console.log(startTime, endTime);
 };
-
 /**
  * lifecycle
  */
 onMounted(() => {
     isJoin.value = route.name == 'join_meeting';
+    rules.roomId = {
+        trigger: 'blur',
+        required: true,
+        message: '请输入会议号',
+        validator: validateRoomID
+    };
 });
 </script>
 
