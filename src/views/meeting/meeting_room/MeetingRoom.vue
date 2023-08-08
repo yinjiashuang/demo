@@ -38,14 +38,13 @@
 </template>
 
 <script setup lang="js">
-import {computed, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue';
+import {computed, getCurrentInstance, onBeforeUnmount, onMounted, reactive, ref, watch} from 'vue';
 import meetingButton from '@/components/meeting_room/bottom_btn/Index.vue';
 import girdFrame from '@/components/meeting_room/gird_frame/Index.vue'
 import speakerFrame from '@/components/meeting_room/speaker_frame/Index.vue'
 import {useRouter} from 'vue-router';
 import {ElMessage} from 'element-plus';
-const rtcCloud = window.trtc;
-let trtc  = null
+let trtc  = window.trtc
 const {
     TRTCAppScene,
     TRTCVideoStreamType,
@@ -188,22 +187,32 @@ const handleMeetingSetting = (type) => {
         
     }
 }
-const onError=(reason)=>{
-    console.log('errorReason',reason)
+function onEnterRoom(elapsed){
+    console.info(`${LOG_PREFIX} onEnterRoom: elapsed: ${elapsed}`);
 }
-const onEnterRoom = (elapsed)=>{
-    console.log('enterRoom',elapsed,'@@@@')
+
+function onExitRoom(reason){
+    console.info(`${LOG_PREFIX} onExitRoom: reason: ${reason}`);
 }
-const onExitRoom = (reason)=>{
-    console.log('exitRoomReason',reason)
+function onError(errCode, errMsg){
+    console.info(`${LOG_PREFIX} onError: errCode: ${errCode}, errMsg: ${errMsg}`);
 }
+
 const initMeetingCallback = () => {
-    trtc.on('onError', onError);
-    trtc.on('onEnterRoom', onEnterRoom);
-    trtc.on('onExitRoom', onExitRoom);
+    console.log(trtc)
+    trtc.on('onError', (errCode, errMsg)=>{
+        onError(errCode, errMsg)
+    });
+    trtc.on('onEnterRoom', (elapsed)=>{
+        console.log('登录房间回调')
+        onEnterRoom(elapsed)
+    });
+    trtc.on('onExitRoom', (reason)=>{
+        onExitRoom(reason)
+    });
 }
 const initMeeting = () => {
-    trtc = new rtcCloud()
+    // trtc.getConfigObject().setDebugMode(true);
     initMeetingCallback();
     enterMeetingRoom()
     
