@@ -29,14 +29,14 @@
         <!-- 页码显示-->
         <div class="gird-page">
             <img v-for="(page,index) in totalPage" :key="page" :src="girdFrame.currentPage == index +1 ?
-            require('@/assets/meeting_room/ic_meeting_room_current_page.svg'):require('@/assets/meeting_room/ic_meeting_room_normal_page.svg')" alt="">
+            getImage('@/assets/meeting_room/ic_meeting_room_current_page.svg'):getImage('@/assets/meeting_room/ic_meeting_room_normal_page.svg')" alt="">
         </div>
     
     </div>
 </template>
 
 <script setup lang="ts">
-import {require} from '@/utils/require.ts';
+import {getImage} from '@/utils/utils.ts';
 import {computed, onMounted, reactive, watch} from 'vue';
 import memberCard from '@/components/meeting_room/member_show_card/Index.vue';
 

@@ -7,13 +7,13 @@
 
 <script setup lang="ts">
 
-import {require} from "@/utils/require.ts";
+import {getImage} from '@/utils/utils.ts';
 
 const props = defineProps({
   iconTitle:String,
   iconName:String
 });
-const iconUrl=require(`@/assets/meeting_room/ic_meeting_room_${props.iconName}.svg`)
+const iconUrl = getImage(`@/assets/meeting_room/ic_meeting_room_${props.iconName}.svg`);
 
 </script>
 

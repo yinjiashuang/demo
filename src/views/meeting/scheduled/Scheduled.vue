@@ -22,12 +22,12 @@
                 </el-form-item>
                 <el-form-item label="预订日期" prop="scheduleDate">
                     <el-date-picker
-                        :clearable="false"
                         v-model="formValue.scheduleDate"
-                        type="date"
+                        :clearable="false"
+                        :disabled-date="disabledDate"
                         placeholder="预定日期"
                         size="large"
-                        :disabled-date="disabledDate"
+                        type="date"
                     />
                 </el-form-item>
                 <el-form-item label="预定时间" prop="scheduleTimeRange">

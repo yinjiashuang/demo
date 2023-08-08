@@ -12,15 +12,15 @@
 </template>
 
 <script setup lang="ts">
-import {require} from '@/utils/require.ts';
+import {getImage} from '@/utils/utils.ts';
 
 const props = defineProps({
     btnName: String,
     iconName: String,
     backgroundName: String
 });
-const iconUrl = require(`@/assets/meeting/${props.iconName}.svg`)
-const backgroundUrl = require(`@/assets/meeting/${props.backgroundName}.svg`);
+const iconUrl = getImage(`@/assets/meeting/${props.iconName}.svg`)
+const backgroundUrl = getImage(`@/assets/meeting/${props.backgroundName}.svg`);
 </script>
 
 <style lang="less">

@@ -8,15 +8,15 @@
             <!-- 会议状态 -->
             <div class="top-operate-area">
                 <div class="meeting-status-box">
-                    <img class="icon" :src="item.meeting_status === '待开始' ? unStartStatusUrl : staringStatusUrl" alt=""/>
-                    <div>{{ item.meeting_status }}</div>
+                    <img class="icon" :src="props.item.meeting_status === '待开始' ?unStartStatusUrl :staringStatusUrl" alt=""/>
+                    <div>{{ props.item.meeting_status }}</div>
                 </div>
                 <el-popover
                     placement="bottom"
                     width="164px"
                     trigger="click"
                     popper-class="meeting-list-card-more-popover"
-                    v-if="item.originator.user_id == userInfo.userId && item.meeting_status == '待开始' || true">
+                    v-if="props.item.originator.user_id == userInfo.userId && props.item.meeting_status == '待开始'">
                     <template #reference>
                         <img alt="更多" class="more-btn" src="@/assets/meeting/ic_meeting_list_card_more.png"/>
                     </template>
@@ -24,7 +24,7 @@
                         <img src="@/assets/meeting/ic_meeting_scheduled_edit.png" alt="编辑"/>
                         <div class="edit-text">编辑</div>
                     </div>
-                    <div class="more-operate-btn" @click="handleDelMeeting(item.meeting_id)">
+                    <div class="more-operate-btn" @click="handleDelMeeting(props.item.meeting_id)">
                         <img src="@/assets/meeting/ic_meeting_delete.png" alt="删除"/>
                         <div class="del-text">删除</div>
                     </div>
@@ -32,21 +32,21 @@
             </div>
             <div class="meeting-list-card-info">
                 <div class="meeting-card-avatar">
-                    <div class="name-suffix">{{ getSubName(item.originator.name) }}</div>
+                    <div class="name-suffix">{{ getSubName(props.item.originator.name) }}</div>
                     <div class="sponsor">发起人</div>
                 </div>
                 <div class="info-box">
-                    <div class="meeting-title">{{ item.meeting_name }}</div>
+                    <div class="meeting-title">{{ props.item.meeting_name }}</div>
                     <div class="info-item">
                         <div class="title">会议号：</div>
-                        <div class="value">{{ item.meeting_id }}</div>
-                        <img alt="" class="share-btn" src="@/assets/ic_share.png" @click="shareMeeting(item.meeting_id)"/>
+                        <div class="value">{{ props.item.meeting_id }}</div>
+                        <img alt="" class="share-btn" src="@/assets/ic_share.png" @click="shareMeeting(props.item.meeting_id)"/>
                     </div>
                     <div class="info-item">
                         <div class="title">时间：</div>
-                        <div class="value">{{ item.reserve_start_time }}</div>
+                        <div class="value">{{ formatTimeRange() }}</div>
                     </div>
-                    <el-tooltip content="123">
+                    <el-tooltip :content="formatUserList()">
                         <div class="info-item">
                             <div class="title">参会人：</div>
                             <div class="value">{{ formatUserList() }}</div>
@@ -61,59 +61,19 @@
 <script setup lang="ts">
 import clipboard from 'vue-clipboard3';
 import {ElMessage, ElMessageBox} from 'element-plus';
-import {reactive} from 'vue';
-import {require} from '@/utils/require.ts';
+import {getImage} from '@/utils/utils.ts';
+import * as moment from 'moment/moment';
 
 const {toClipboard} = clipboard();
 /**
  * params
  */
-const userInfo = reactive<{ userId: string, name: string }>(JSON.parse(window.sessionStorage.getItem('userInfo')));
-const item = reactive({
-    meeting_id: '12313',
-    meeting_status: '待开始',
-    meeting_name: '解决维修相关难点解决维修相关难点解决维修相关难点',
-    originator: {
-        user_id: '123',
-        name: '123123'
-    },
-    reserve_start_time: '10:30:00-11:30:00',
-    reserve_end_time: '10:30:00-11:30:00',
-    attendee_list: [
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        },
-        {
-            name: '马世鹏'
-        }
-    ]
+const props = defineProps({
+    item: Object,
+    userInfo: Object,
 });
-const unStartStatusUrl = require('@/assets/meeting/ic_meeting_status_un_start.png');
-const staringStatusUrl = require('@/assets/meeting/ic_meeting_status_starting.png');
+const unStartStatusUrl = getImage('@/assets/meeting/ic_meeting_status_un_start.png');
+const staringStatusUrl = getImage('@/assets/meeting/ic_meeting_status_starting.png');
 /**
  * method
  */
@@ -152,15 +112,8 @@ const copy = async (Msg) => {
 
 // 格式化用户列表
 const formatUserList = () => {
-    const userList = item.attendee_list;
-    let str = '';
-    userList &&
-    userList.map((e, i) => {
-        str = str + e.name;
-        i != userList.length - 1 && (str = str + ', ');
-    });
-    
-    return str;
+    const userList = props.item.attendee_list;
+    return userList.map(item => item.name).join('；');
 };
 
 const hideAllUserList = (index) => {
@@ -221,6 +174,15 @@ const getMeeting = (str) => {
         .catch((err) => {
             console.log(err, '!!!');
         });
+};
+
+/**
+ * 格式化时间区间
+ */
+const formatTimeRange = () => {
+    const startTime = moment(props.item.reserve_start_time).format('HH:mm:ss');
+    const endTime = moment(props.item.reserve_end_time).format('HH:mm:ss');
+    return `${startTime} - ${endTime}`;
 };
 
 // 获取后两位字符

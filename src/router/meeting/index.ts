@@ -2,7 +2,7 @@ import {RouteRecordRaw} from 'vue-router';
 import meetingList from '@/views/meeting/list/Index.vue';
 import joinMeeting from '@/views/meeting/join/Join.vue';
 import Scheduled from '@/views/meeting/scheduled/Scheduled.vue';
-import meetingRoom from '@/views/meeting/meeting_room/MeetingRoom.vue'
+import meetingRoom from '@/views/meeting/meeting_room/MeetingRoom.vue';
 
 export const meetingRoutes: Array<RouteRecordRaw> = [
     {
@@ -11,7 +11,7 @@ export const meetingRoutes: Array<RouteRecordRaw> = [
         component: meetingList,
         meta: {
             title: '会议列表'
-        }
+        },
     },
     {
         path: '/meeting/join',

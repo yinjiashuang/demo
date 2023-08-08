@@ -8,6 +8,7 @@ export interface BaseResponse<T> {
     code: number;
     msg: string;
     result: T;
+    count?: number;
 }
 
 // 重写返回类型
@@ -26,7 +27,7 @@ const request = new Request({
         // 请求拦截器
         requestInterceptors: config => {
             if (config.headers) {
-                config.headers['Accept-Language'] = 'en';
+                config.headers['Accept-Language'] = 'zh';
                 const token = window.sessionStorage.getItem('token') || '';
                 if (token !== '') {
                     config.headers.Authorization = `Bearer ${token}`;

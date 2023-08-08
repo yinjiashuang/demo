@@ -10,7 +10,7 @@ const service = axios.create({
 // request interceptor
 service.interceptors.request.use(async (config: AxiosRequestConfig) => {
     if (config.headers) {
-        config.headers['Accept-Language'] = 'en'; //todo暂时没有中英文切换需求 230725
+        config.headers['Accept-Language'] = 'zh'; //todo暂时没有中英文切换需求 230725
         const token = window.sessionStorage.getItem('token');
         config.headers['Content-Type'] = config.headers['Content-Type'] || 'application/json';
 
