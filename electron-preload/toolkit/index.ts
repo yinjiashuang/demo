@@ -1,9 +1,9 @@
-import {contextBridge, ipcRenderer, webFrame} from 'electron';
+import {ipcRenderer, webFrame} from 'electron';
 import {ElectronAPI} from './types';
 
 export type {ElectronAPI, IpcRenderer, IpcRendererListener, WebFrame, NodeProcess} from './types';
 
-export const electronAPI: ElectronAPI = {
+const electronAPI: ElectronAPI = {
     ipcRenderer: {
         send(channel, ...args) {
             ipcRenderer.send(channel, ...args);
@@ -70,19 +70,4 @@ export const electronAPI: ElectronAPI = {
     }
 };
 
-/**
- * Expose Electron APIs from your preload script, the API
- * will be accessible from the website on `window.electron`.
- */
-export function exposeElectronAPI(): void {
-    if (process.contextIsolated) {
-        try {
-            contextBridge.exposeInMainWorld('electron', electronAPI);
-        } catch (error) {
-            console.error(error);
-        }
-    } else {
-        // @ts-ignore (need dts)
-        window.electron = electronAPI;
-    }
-}
+export default electronAPI;

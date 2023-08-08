@@ -13,9 +13,11 @@ const createWindow = async () => {
         show: false,
         resizable: true,
         webPreferences: {
+            preload: path.join(__dirname, '../electron-preload/index.js'),
+            webSecurity: false, // 跨域
             contextIsolation: false, // 是否开启隔离上下文
             nodeIntegration: true, // 渲染进程使用node api
-            preload: path.join(__dirname, '../electron-preload/index.js')
+            nodeIntegrationInWorker: true,
         }
     });
 
@@ -31,6 +33,9 @@ const createWindow = async () => {
         await mainWindow.loadURL(url);
     }
     IpcMainEvent(mainWindow);
+    if (!app.isPackaged) {
+        mainWindow.webContents.openDevTools({mode: 'left'});
+    }
 };
 
 app.setAsDefaultProtocolClient('StoneHawkMeetingClient');
