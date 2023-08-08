@@ -1,9 +1,6 @@
 import {contextBridge} from 'electron';
 import {ElectronAPI, electronAPI} from './toolkit';
-
-const zgEngine = window.require('zego-express-engine-electron/ZegoExpressEngine');
-const zgDefines = window.require('zego-express-engine-electron/ZegoExpressDefines');
-
+import TRTCCloud from 'trtc-electron-sdk';
 // Custom APIs for renderer
 const api = {};
 
@@ -14,23 +11,20 @@ if (process.contextIsolated) {
     try {
         contextBridge.exposeInMainWorld('electron', electronAPI);
         contextBridge.exposeInMainWorld('api', api);
-        contextBridge.exposeInMainWorld('zgDefines', zgDefines);
-        contextBridge.exposeInMainWorld('zgEngine', zgEngine);
+        contextBridge.exposeInMainWorld('trtc', TRTCCloud);
     } catch (error) {
         console.error(error);
     }
 } else {
     window.electron = electronAPI;
     window.api = api;
-    window.zgDefines = zgDefines;
-    window.zgEngine = zgEngine;
+    window.trtc = TRTCCloud;
 }
 
 declare global {
     interface Window {
         electron: ElectronAPI;
         api: {};
-        zgDefines: {};
-        zgEngine: {};
+        trtc: TRTCCloud;
     }
 }

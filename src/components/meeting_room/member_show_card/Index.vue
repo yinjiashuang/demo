@@ -30,7 +30,6 @@
 
 <script setup lang="ts">
 import {computed, onMounted, onUnmounted} from 'vue';
-const zgEngine = window.zgEngine;
 
 const props= defineProps({
   nickName:String,
@@ -39,7 +38,6 @@ const props= defineProps({
   isHost:Boolean,
   connectStatus:Number,
   userID:String,
-  userPlayer:Object,
   isShow:Boolean
 })
 
@@ -47,15 +45,9 @@ const playerID = computed(()=>{
   return `player_${props.userID}`
 })
 
-onMounted(()=>{
-    zgEngine.startPreview({
-        canvas: document.getElementById(playerID.value)
-    });
-})
+onMounted(()=>{})
 
-onUnmounted(()=>{
-    zgEngine.stopPreview();
-})
+onUnmounted(()=>{})
 
 </script>
 
