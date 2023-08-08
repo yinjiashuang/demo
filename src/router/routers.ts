@@ -10,7 +10,7 @@ const homeRoute = {
     title: '首页'
   },
   redirect: {
-    name: 'meeting_list'
+    name: 'meeting_room'
   },
   component: Home,
   children: [
