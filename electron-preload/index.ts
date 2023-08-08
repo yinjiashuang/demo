@@ -1,6 +1,7 @@
 import {contextBridge} from 'electron';
 import {ElectronAPI, electronAPI} from './toolkit';
-import TRTCCloud from 'trtc-electron-sdk/liteav/trtc';
+
+const TRTCCloud = require('trtc-electron-sdk').default;
 // Custom APIs for renderer
 const api = {};
 
@@ -11,20 +12,20 @@ if (process.contextIsolated) {
     try {
         contextBridge.exposeInMainWorld('electron', electronAPI);
         contextBridge.exposeInMainWorld('api', api);
-        contextBridge.exposeInMainWorld('trtc', TRTCCloud);
+        contextBridge.exposeInMainWorld('trtc', new TRTCCloud());
     } catch (error) {
         console.error(error);
     }
 } else {
     window.electron = electronAPI;
     window.api = api;
-    window.trtc = new TRTCCloud;
+    window.trtc = new TRTCCloud();
 }
 
 declare global {
     interface Window {
         electron: ElectronAPI;
         api: {};
-        trtc: TRTCCloud;
+        trtc: typeof TRTCCloud;
     }
 }

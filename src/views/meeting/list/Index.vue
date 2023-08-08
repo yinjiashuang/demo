@@ -119,6 +119,7 @@ const getList = async () => {
  */
 onMounted(() => {
     getList();
+    console.log(window.trtc);
 });
 </script>
 <style lang="less">
