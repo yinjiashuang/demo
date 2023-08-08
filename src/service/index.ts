@@ -20,6 +20,10 @@ interface TokenRequestConfig extends RequestConfig<ITokenRes> {
 
 }
 
+interface UnknownRequestConfig<T> extends RequestConfig<T> {
+
+}
+
 const request = new Request({
     baseURL: '/client',
     timeout: 1000 * 60 * 5,
@@ -57,6 +61,10 @@ const TokenRequest = (config: TokenRequestConfig) => {
     return request.request<ITokenRes>(config);
 };
 
+const CommonRequest = <RESP = any>(config: UnknownRequestConfig<RESP>) => {
+    return request.request<RESP>(config);
+};
+
 // // 取消请求
 // export const cancelRequest = (url: string | string[]) => {
 //   return request.cancelRequest(url)
@@ -66,4 +74,4 @@ const TokenRequest = (config: TokenRequestConfig) => {
 //   return request.cancelAllRequest()
 // }
 
-export {TokenRequest, BaseRequest};
+export {TokenRequest, BaseRequest, CommonRequest};

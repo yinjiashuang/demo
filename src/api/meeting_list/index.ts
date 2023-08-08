@@ -10,7 +10,7 @@
 // export default $api;
 
 
-import {BaseRequest} from '@/service';
+import {BaseRequest, CommonRequest} from '@/service';
 
 /**
  * 获取会议列表
@@ -28,13 +28,32 @@ export const getMeetingList = (params: { meeting_id?: string, meeting_status: nu
  * 加入会议
  * @param data
  */
-export const joinMeeting = (data: { meeting_id: string }) => {
+export const joinMeetingApi = (data: { meeting_id: string }) => {
     return BaseRequest<{ meeting_id: string }, IMeeting>({
         url: '/v1/remote/online/meeting/join',
         method: 'put',
         data
     });
 };
+
+/**
+ * 创建会议
+ * @param data 参数
+ */
+export const scheduleMeeting = (data: ICreateMeeting) => {
+    return CommonRequest<{ code: number, msg: string, meeting_id: string }>({
+        url: 'v1/remote/online/meeting/add',
+        method: 'post',
+        data
+    });
+};
+
+export interface ICreateMeeting {
+    meeting_name: string,
+    start_time: string,
+    end_time: string,
+    attendee_list?: Array<string>
+}
 
 export interface IMeeting {
     meeting_id: string,

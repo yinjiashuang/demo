@@ -8,7 +8,7 @@
                 <el-button size="large" type="info" link :icon="ArrowLeft" @click="back">返回</el-button>
             </div>
             <el-form ref="joinForm" :model="formValue" :rules="rules" class="form-body" label-position="top">
-                <el-form-item label="会议号" prop="roomId">
+                <el-form-item label="会议号" prop="roomId" :required="isJoin">
                     <el-input
                         v-model="formValue.roomId"
                         :disabled="!isJoin"
@@ -36,7 +36,7 @@ import {onMounted, reactive, ref} from 'vue';
 import {ArrowLeft} from '@element-plus/icons-vue';
 import * as moment from 'moment/moment';
 import {ElMessage, FormInstance} from 'element-plus';
-import {joinMeeting} from '@/api/meeting_list';
+import {ICreateMeeting, joinMeetingApi, scheduleMeeting} from '@/api/meeting_list';
 
 interface IJoinForm {
     roomId: string;
@@ -45,7 +45,7 @@ interface IJoinForm {
 const router = useRouter();
 const route = useRoute();
 // 是否为加入
-const isJoin = ref(false);
+const isJoin = ref(true);
 // 房间id
 const formValue = reactive<IJoinForm>({
     roomId: ''
@@ -58,13 +58,12 @@ const isEnableCamera = ref(true);
 const joinForm = ref<FormInstance>();
 // 按钮加载
 const loading = ref(false);
-const validateRoomID = (rule: any, value: any, callback: any) => {
-    console.log(rule);
+const validateRoomID = (_: any, value: any, callback: any) => {
     if (!isJoin.value) {
         callback();
         return;
     }
-    if (!value) {
+    if (!value || value === '') {
         callback(new Error('请输入会议号'));
     } else {
         if (value.length !== 9) {
@@ -77,7 +76,7 @@ const validateRoomID = (rule: any, value: any, callback: any) => {
 const rules = {
     roomId: {
         trigger: 'blur',
-        required: isJoin.value === true,
+        required: true,
         message: '请输入会议号',
         validator: validateRoomID
     }
@@ -105,55 +104,65 @@ const handleInput = (value: string): void => {
 };
 
 const handleButton = async (): Promise<any> => {
-    if (joinForm.value?.validate()) {
+    if (await joinForm.value?.validate()) {
         loading.value = true;
         // 加入会议
         if (isJoin.value) {
-            const params = {
-                meeting_id: formValue.roomId,
-            };
-            const res = await joinMeeting(params);
-            if (res.code === 200) {
-                const to: RouteLocationRaw = {
-                    name: 'meeting_room',
-                    query: {
-                        hostUserId: res.result.host,
-                        enable_mic: isEnableMic.value ? 1 : 0,
-                        enable_camera: isEnableCamera.value ? 1 : 0,
-                        roomId: params.meeting_id,
-                        roomName: res.result.meeting_name
-                    }
-                };
-                await router.push(to);
-            } else {
-                ElMessage.error(res.msg);
-            }
-            loading.value = true;
+            await joinMeeting();
         } else {
             // 创建会议
-            // todo 先预定会议 再加入会议
-            createMeeting();
+            await createMeeting();
         }
+        loading.value = false;
     }
 };
 
-const createMeeting = (): void => {
+const createMeeting = async () => {
     const now = moment(new Date().getTime());
     const startTime = now.format('YYYY-MM-DD HH:mm:ss');
     const endTime = now.add(30, 'minute').format('YYYY-MM-DD HH:mm:ss');
-    console.log(startTime, endTime);
+    const userInfo = JSON.parse(window.sessionStorage.getItem('userInfo') || '{}');
+    const params: ICreateMeeting = {
+        meeting_name: `${userInfo.name}的快速会议`,
+        start_time: startTime,
+        end_time: endTime,
+        attendee_list: []
+    };
+    const res = await scheduleMeeting(params);
+    if (res.code === 200) {
+        await joinMeeting(res.meeting_id);
+    }
+};
+
+/**
+ * 加入会议
+ */
+const joinMeeting = async (roomId: string = formValue.roomId) => {
+    const params = {
+        meeting_id: roomId,
+    };
+    const res = await joinMeetingApi(params);
+    if (res.code === 200) {
+        const to: RouteLocationRaw = {
+            name: 'meeting_room',
+            query: {
+                hostUserId: res.result.host,
+                enable_mic: isEnableMic.value ? 1 : 0,
+                enable_camera: isEnableCamera.value ? 1 : 0,
+                roomId: params.meeting_id,
+                roomName: res.result.meeting_name
+            }
+        };
+        await router.push(to);
+    } else {
+        ElMessage.error(res.msg);
+    }
 };
 /**
  * lifecycle
  */
 onMounted(() => {
     isJoin.value = route.name == 'join_meeting';
-    rules.roomId = {
-        trigger: 'blur',
-        required: true,
-        message: '请输入会议号',
-        validator: validateRoomID
-    };
 });
 </script>
 
