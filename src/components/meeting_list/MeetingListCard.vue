@@ -16,7 +16,7 @@
                     width="164px"
                     trigger="click"
                     popper-class="meeting-list-card-more-popover"
-                    v-if="props.item.originator.user_id == userInfo.userId && props.item.meeting_status == '待开始' || true">
+                    v-if="props.item.originator.user_id == userInfo.userId && props.item.meeting_status == '待开始'">
                     <template #reference>
                         <img alt="更多" class="more-btn" src="@/assets/meeting/ic_meeting_list_card_more.png"/>
                     </template>
@@ -44,9 +44,9 @@
                     </div>
                     <div class="info-item">
                         <div class="title">时间：</div>
-                        <div class="value">{{ props.item.reserve_start_time }}</div>
+                        <div class="value">{{ formatTimeRange() }}</div>
                     </div>
-                    <el-tooltip content="123">
+                    <el-tooltip :content="formatUserList()">
                         <div class="info-item">
                             <div class="title">参会人：</div>
                             <div class="value">{{ formatUserList() }}</div>
@@ -61,17 +61,16 @@
 <script setup lang="ts">
 import clipboard from 'vue-clipboard3';
 import {ElMessage, ElMessageBox} from 'element-plus';
-import {reactive} from 'vue';
 import {getImage} from '@/utils/utils.ts';
+import * as moment from 'moment/moment';
 
 const {toClipboard} = clipboard();
 /**
  * params
  */
-const userInfo = reactive<{ userId: string, name: string }>(JSON.parse(window.sessionStorage.getItem('userInfo')));
-
 const props = defineProps({
-    item: Object
+    item: Object,
+    userInfo: Object,
 });
 const unStartStatusUrl = getImage('@/assets/meeting/ic_meeting_status_un_start.png');
 const staringStatusUrl = getImage('@/assets/meeting/ic_meeting_status_starting.png');
@@ -175,6 +174,15 @@ const getMeeting = (str) => {
         .catch((err) => {
             console.log(err, '!!!');
         });
+};
+
+/**
+ * 格式化时间区间
+ */
+const formatTimeRange = () => {
+    const startTime = moment(props.item.reserve_start_time).format('HH:mm:ss');
+    const endTime = moment(props.item.reserve_end_time).format('HH:mm:ss');
+    return `${startTime} - ${endTime}`;
 };
 
 // 获取后两位字符

@@ -12,13 +12,6 @@ export const meetingRoutes: Array<RouteRecordRaw> = [
         meta: {
             title: '会议列表'
         },
-        children: [
-            {
-                path: '/all',
-                name: 'meeting_list_all',
-                component: import('@/views/meeting/meeting_room/MeetingRoom.vue')
-            }
-        ]
     },
     {
         path: '/meeting/join',
