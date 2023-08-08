@@ -1,6 +1,6 @@
 import {contextBridge} from 'electron';
 import {ElectronAPI, electronAPI} from './toolkit';
-import TRTCCloud from 'trtc-electron-sdk';
+import TRTCCloud from 'trtc-electron-sdk/liteav/trtc';
 // Custom APIs for renderer
 const api = {};
 
@@ -18,7 +18,7 @@ if (process.contextIsolated) {
 } else {
     window.electron = electronAPI;
     window.api = api;
-    window.trtc = TRTCCloud;
+    window.trtc = new TRTCCloud;
 }
 
 declare global {
