@@ -11,10 +11,9 @@
                     <member-card :class="getMemberClass(page)" v-for="item in getCurrentPageUsers(page)"
                                  :nickName="item.nickName"
                                  :userName="item.userName"
-                                 :isMute="item.isMuted"
+                                 :isMute="item.isMute"
                                  :isShow="item.isShow"
                                  :userID="item.userID"
-                                 :userPlayer="item.userPlayer"
                                  :isHost="item.isHost!"
                                  :connectStatus="item.connectStatus!"
                     />
@@ -38,7 +37,7 @@
 
 <script setup lang="ts">
 import {getImage} from '@/utils/utils.ts';
-import {computed, onMounted, reactive} from 'vue';
+import {computed, onMounted, reactive, watch} from 'vue';
 import memberCard from '@/components/meeting_room/member_show_card/Index.vue';
 
 
@@ -107,9 +106,8 @@ const turnPage=(to:any)=>{
     }
     
 }
-onMounted(() => {
 
-});
+onMounted(() => {});
 </script>
 
 
